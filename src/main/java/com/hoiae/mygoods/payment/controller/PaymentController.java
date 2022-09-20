@@ -46,8 +46,9 @@ public class PaymentController {
         System.out.println("orderId : " + orderId);
         System.out.println("amount : " + amount);
 
-        paymentService.verifyRequest(paymentKey, orderId, amount);
+        paymentService.verifyRequest(paymentKey, orderId, amount); // test
 //        String result = paymentService.requestFinalPayment(paymentKey, orderId, amount, model);
+
 
         HttpHeaders headers = new HttpHeaders();
         // headers.setBasicAuth(SECRET_KEY, ""); // spring framework 5.2 이상 버전에서 지원
