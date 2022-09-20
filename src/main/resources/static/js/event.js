@@ -39,6 +39,7 @@ window.onload = function() {
     if(document.getElementById("logout")) {
         const $logout = document.getElementById("logout");
         $logout.onclick = function() {
+            console.log("로그아웃 이벤트")
             location.href = "/member/logout";
         }
     }

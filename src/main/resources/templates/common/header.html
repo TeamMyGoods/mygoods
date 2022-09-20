@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript" th:src="@{/js/event.js}"></script>
 </head>
 <body>
 
@@ -12,9 +14,33 @@
     <nav class="nav nav-masthead justify-content-center float-md-end">
       <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'index'?'active':''" aria-current="page" th:href="@{/}">Home</a>
       <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'product'?'active':''" th:href="@{/product}">product</a>
-      <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'member'?'active':''" th:href="@{/member/login}">member</a>
+      <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'member'?'active':''" th:href="@{/member}">member</a>
+
+      <div class="title-auth">
+        <div class="login-area">
+            <!-- 로그인이 필요한 경우 -->
+            <th:block sec:authorize="isAnonymous()">
+                <div class="btns">
+                    <input type="button" class="btn btn-yg" value="로그인" id="login">
+                </div>
+            </th:block>
+
+            <th:block sec:authorize="isAuthenticated()">
+                <div class="login-info">
+                    <h5><span sec:authentication="principal.nickname"></span>님의 방문을 환영합니다.</h5>
+                    <div class="btns">
+                        <input type="button" class="btn btn-ed" value="정보수정" id="updateMember">
+                        <input type="button" class="btn btn-lo" value="로그아웃" id="logout">
+                    </div>
+                </div>
+            </th:block>
+            </div>
+    </div>
+
     </nav>
   </div>
+
+
 </header>
 
 </body>

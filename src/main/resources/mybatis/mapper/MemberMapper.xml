@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ohgiraffers.thymeleafspringboot.member.dao.MemberMapper">
+<mapper namespace="com.hoiae.mygoods.member.dao.MemberMapper">
 
     <select id="selectMemberById" resultType="string">
         SELECT /* com.ohgiraffers.thymeleafspringboot.member.dao.MemberMapper#selectMemberById() */
