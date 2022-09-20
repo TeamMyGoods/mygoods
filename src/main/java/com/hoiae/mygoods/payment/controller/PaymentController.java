@@ -1,22 +1,34 @@
 package com.hoiae.mygoods.payment.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hoiae.mygoods.common.payment.PriceNotEqualException;
 import com.hoiae.mygoods.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.net.http.HttpRequest;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/payment")
 public class PaymentController {
 
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final PaymentService paymentService;
+
+    private final String SECRET_KEY = "test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R";
 
     @Autowired
     public PaymentController(PaymentService paymentService){
@@ -29,19 +41,44 @@ public class PaymentController {
     }
 
     @GetMapping("/success")
-    public ModelAndView requestPayments(ModelAndView mv, @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount) throws PriceNotEqualException, IOException, InterruptedException {
+    public String requestPayments(Model model, @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount) throws PriceNotEqualException, IOException, InterruptedException {
         System.out.println("paymentKey : " + paymentKey);
         System.out.println("orderId : " + orderId);
         System.out.println("amount : " + amount);
 
         paymentService.verifyRequest(paymentKey, orderId, amount);
-        String result = paymentService.requestFinalPayment(paymentKey, orderId, amount);
+//        String result = paymentService.requestFinalPayment(paymentKey, orderId, amount, model);
 
-        System.out.println(result);
+        HttpHeaders headers = new HttpHeaders();
+        // headers.setBasicAuth(SECRET_KEY, ""); // spring framework 5.2 이상 버전에서 지원
+        headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()));
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        mv.setViewName("content/payment/success");
-        mv.addObject("response", result);
+        Map<String, String> payloadMap = new HashMap<>();
+        payloadMap.put("orderId", orderId);
+        payloadMap.put("amount", String.valueOf(amount));
 
-        return mv;
+        HttpEntity<String> request = new HttpEntity<>(objectMapper.writeValueAsString(payloadMap), headers);
+
+        ResponseEntity<JsonNode> responseEntity = restTemplate.postForEntity(
+                "https://api.tosspayments.com/v1/payments/" + paymentKey, request, JsonNode.class);
+
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            JsonNode successNode = responseEntity.getBody();
+            System.out.println(successNode);
+            model.addAttribute("orderId", successNode.get("orderId").asText());
+            String secret = successNode.get("secret").asText(); // 가상계좌의 경우 입금 callback 검증을 위해서 secret을 저장하기를 권장함
+            return "content/payment/success";
+        } else {
+            JsonNode failNode = responseEntity.getBody();
+            model.addAttribute("message", failNode.get("message").asText());
+            model.addAttribute("code", failNode.get("code").asText());
+            return "content/payment/fail";
+        }
+
+
+//        mv.setViewName("content/payment/success");
+//        mv.addObject("response", result);
+
     }
 }

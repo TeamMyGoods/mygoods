@@ -16,8 +16,11 @@
     <header th:replace="common/header::header('index')"></header>
 
     <main class="px-3">
-        <h1>Payment Result</h1>
-        <p th:text="${response}"></p>
+
+        <h1>결제 성공</h1>
+        <h1>주문번호 </h1>
+        <p th:text="${orderId}"></p>
+        <p th:text="${orderId}">주문번호</p>
 
     </main>
 
