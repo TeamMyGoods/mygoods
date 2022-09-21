@@ -2,7 +2,9 @@
  * Globals
  */
 
-
+.btn btn-ed{
+    color : white;
+}
 /* Custom default button */
 .btn-secondary,
 .btn-secondary:hover,
