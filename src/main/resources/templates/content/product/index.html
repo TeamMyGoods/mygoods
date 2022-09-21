@@ -1,0 +1,95 @@
+<!doctype html>
+<html xmlns:th="http://thymeleaf.org" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" th:src="@{/js/event.js}"></script>
+    <title>mygoods</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="cover.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+</head>
+<body class="d-flex h-100 text-center text-bg-dark">
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+    <header th:replace="common/header::header('product')"></header>
+
+    <main class="px-3">
+        <p>
+            이미지 업로드 테스트 창
+        </p>
+        <div>
+            <form th:action="@{/product/fileupload}" id="uploadForm" enctype="multipart/form-data method=post">
+                <input type="file" id="imageInput" />
+            </form>
+            <hr />
+            <button onclick="upload()">
+                업로드
+            </button>
+            <hr />
+            <p>
+                업로드결과:
+            </p>
+            <p id="resultUploadPath"></p>
+        </div>
+    </main>
+
+    <footer th:replace="common/footer::footer"></footer>
+
+
+
+
+
+    <script>
+        function upload() {
+            const imageInput = $("#imageInput")[0];
+            // 파일을 여러개 선택할 수 있으므로 files 라는 객체에 담긴다.
+            console.log("imageInput: ", imageInput.files)
+
+            if(imageInput.files.length === 0){
+                alert("파일은 선택해주세요");
+                return;
+            }
+
+
+
+            const formData = new FormData();
+
+            console.log("formdata : ",formData );
+
+
+            console.log(imageInput.files[0]);
+            formData.append("image", imageInput.files[0]);
+
+            for (let key of formData.keys()) {
+                console.log("key : ", key);
+            }
+            for (let value of formData.values()) {
+                console.log("value : ",value);
+            }
+
+
+            // $.ajax({
+            //     type:"POST",
+            //     url: "/product/fileupload",
+            //     processData: false,
+            //     contentType: false,
+            //     data: formData,
+            //     success: function(rtn){
+            //         const message = rtn.data.values[0];
+            //         console.log("message: ", message)
+            //         $("#resultUploadPath").text(message.uploadFilePath)
+            //     },
+            //     err: function(err){
+            //         console.log("err:", err)
+            //     }
+            // })
+        }
+    </script>
+</div>
+</body>
+</html>
