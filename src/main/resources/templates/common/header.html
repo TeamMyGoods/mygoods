@@ -27,7 +27,10 @@
 
             <th:block sec:authorize="isAuthenticated()">
                 <div class="login-info">
+
                     <div><span sec:authentication="principal.nickname"></span>님의 방문을 환영합니다.</div>
+
+
                     <div class="btns">
                         <input type="button" class="btn btn-ed" value="정보수정" id="updateMember">
                         <input type="button" class="btn btn-lo" value="로그아웃" id="logout">
