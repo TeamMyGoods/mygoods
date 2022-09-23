@@ -40,6 +40,9 @@ public class PaymentController {
         return "content/payment/order";
     }
 
+    @GetMapping("/test")
+    public String goTest(){return "content/payment/test";};
+
     @GetMapping("/success")
     public String requestPayments(Model model, @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount) throws PriceNotEqualException, IOException, InterruptedException {
         System.out.println("paymentKey : " + paymentKey);
