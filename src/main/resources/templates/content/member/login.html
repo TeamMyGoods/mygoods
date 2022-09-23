@@ -4,44 +4,65 @@
 <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" th:href="@{/css/common.css}">
+<!--    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sign-in/">-->
+    <link href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <style>
+
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+        }
+
+        .form-signin .form-floating:focus-within {
+            z-index: 2;
+        }
+
+        .form-signin input[type="text"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            padding-top: 20px;
+            /*padding-bottom: 40px;*/
+            background-color: #212529;
+        }
+    </style>
+
     <script type="text/javascript" th:src="@{/js/event.js}"></script>
 </head>
 
 <th:block>
-    <div class="error-container">
-
-        <h1>로그인</h1>
-        <!-- 로그인 폼 -->
+<!--    <div class="error-container">-->
+    <main class="form-signin w-100 m-auto mt-5 mb-3 text-center">
         <form id="loginForm" th:action="@{/member/login}" method="post">
-            <table style="margin: 0 auto">
-                <tr>
-                    <td>
-                        <label class="text">ID : </label>
-                    </td>
-                    <td>
-                        <input type="text" name="memberId">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label class="text">PWD : </label>
-                    </td>
-                    <td>
-                        <input type="password" name="memberPwd">
-                    </td>
-                </tr>
-            </table>
-            <div class="btns">
-                <input type="button" class="btn btn-yg" value="회원가입" id="regist">
-                <input type="submit" class="btn btn-or" value="로그인" id="loginSubmit">
+            <img class="mb-4" th:src="@{/image/LogoBox.png}" alt="" width="100" height="100">
+            <h1 class="h3 mb-5 fw-normal text-light">My Goods</h1>
+
+            <div class="form-floating">
+                <input type="text" class="form-control" id="memberId" name="memberId" placeholder="ID">
+                <label for="memberId">ID</label>
             </div>
-            <div style="display: flex; justify-content: center">
-                <button type="button" style="width: 100px; border: none; background: none; color: red; cursor: pointer" th:onclick="|location.href='@{/}'|">돌아가기</button>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="memberPwd" name="memberPwd" placeholder="Password">
+                <label for="memberPwd">Password</label>
             </div>
+
+            <button class="w-100 h-50 btn btn-lg btn-outline-light mb-2" type="submit" id="loginSubmit">로그인</button>
+            <button class="w-100 h-50 btn btn-lg btn-outline-light" type="button" id="regist">회원가입</button>
+            <p class="mt-5 mb-3 text-muted">&copy; My GOODS 2022</p>
         </form>
+    </main>
 
-
-    </div>
 </th:block>
 
 </html>

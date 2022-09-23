@@ -19,20 +19,19 @@
     <header th:replace="common/header::header('product')"></header>
 
     <main class="px-3">
+
         <form id="uploadForm" method="post" action="/product/upload" enctype="multipart/form-data">
             　　<input type="file" id= "imageInput" name="imageInput" multiple="multiple" accept=".png, .jpg, .jpeg">
             　　<button onclick="upload()" type="button" id="uploadBtn">업로드</button>
         </form>
+
 
     </main>
 
     <footer th:replace="common/footer::footer"></footer>
 
 
-<script>
 
-
-</script>
 
 
     <script>
@@ -81,6 +80,7 @@
                     console.log("err:", err)
                 }
             })
+
         }
     </script>
 </div>

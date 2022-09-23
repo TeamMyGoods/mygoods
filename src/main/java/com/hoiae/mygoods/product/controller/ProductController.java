@@ -25,6 +25,7 @@ public class ProductController {
         return "content/product/index";
     }
 
+
     @ResponseBody
     @PostMapping("/upload")
     public String uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
@@ -81,16 +82,21 @@ public class ProductController {
 
         System.out.println(file);
 
-        file.transferTo(converFile);
-//        file.transferTo(new File(file.getOriginalFilename()));
+    @PostMapping("/api")
+    @ResponseBody
+    public String uploadImage(MultipartHttpServletRequest request){
+        System.out.println(request.getSession());
+        return "OK";
+    }
 
-        String filename_url = file.getOriginalFilename();
-        String message = file.getOriginalFilename()+ " 파일이 저장되었습니다.";
+    @PostMapping("/fileupload")
+    public String fileUpload(@RequestParam MultipartFile file, RedirectAttributes redirectAttributes) throws IOException {
+        File converFile = new File(file.getOriginalFilename());
 
-        redirectAttributes.addFlashAttribute("message",message);
-        redirectAttributes.addFlashAttribute("filename_url",filename_url);
+        System.out.println(converFile.getName());
 
-        return "redirect:/product";
+
     }*/
+
 
 }
