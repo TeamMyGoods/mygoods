@@ -4,6 +4,11 @@ spring:
     url: jdbc:oracle:thin:@leisurethat_high?TNS_ADMIN=./src/main/resources/wallet
     username: mygoods
     password: OracleOracle123
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 mybatis:
   # mapper.xml location Setting
@@ -12,3 +17,5 @@ mybatis:
   type-aliases-package: com.hoiae.mygoods
   configuration:
     map-underscore-to-camel-case: true
+
+
