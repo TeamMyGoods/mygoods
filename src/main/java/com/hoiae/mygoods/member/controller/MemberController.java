@@ -42,9 +42,9 @@ public class MemberController {
     public String registMember(@ModelAttribute MemberDTO member, HttpServletRequest request,
                                RedirectAttributes rttr) throws MemberRegistException {
 
-        String address = request.getParameter("zipCode") + "$" + request.getParameter("address1") + "$" + request.getParameter("address2");
+//        String address = request.getParameter("zipCode") + "$" + request.getParameter("address1") + "$" + request.getParameter("address2");
         member.setPhone(member.getPhone().replace("-", ""));
-        member.setAddress(address);
+//        member.setAddress(address);
         member.setMemberPwd(passwordEncoder.encode(member.getMemberPwd()));
 
         memberService.registMember(member);
