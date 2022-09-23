@@ -96,7 +96,6 @@ public class MemberController {
 
         String address = request.getParameter("zipCode") + "$" + request.getParameter("address1") + "$" + request.getParameter("address2");
         member.setPhone(member.getPhone().replace("-", ""));
-        member.setAddress(address);
         member.setMemberPwd(passwordEncoder.encode(member.getMemberPwd()));
 
 

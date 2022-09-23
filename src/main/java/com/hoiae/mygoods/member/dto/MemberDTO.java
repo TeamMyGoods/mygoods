@@ -18,23 +18,19 @@ public class MemberDTO implements UserDetails {
     private String nickname;
     private String phone;
     private String email;
-    private String address;
-    private Date enrollDate;
     private String memberRole;
     private String memberStatus;
 
     public MemberDTO() {
     }
 
-    public MemberDTO(Long memberNo, String memberId, String memberPwd, String nickname, String phone, String email, String address, Date enrollDate, String memberRole, String memberStatus) {
+    public MemberDTO(Long memberNo, String memberId, String memberPwd, String nickname, String phone, String email, String memberRole, String memberStatus) {
         this.memberNo = memberNo;
         this.memberId = memberId;
         this.memberPwd = memberPwd;
         this.nickname = nickname;
         this.phone = phone;
         this.email = email;
-        this.address = address;
-        this.enrollDate = enrollDate;
         this.memberRole = memberRole;
         this.memberStatus = memberStatus;
     }
@@ -87,22 +83,6 @@ public class MemberDTO implements UserDetails {
         this.email = email;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Date getEnrollDate() {
-        return enrollDate;
-    }
-
-    public void setEnrollDate(Date enrollDate) {
-        this.enrollDate = enrollDate;
-    }
-
     public String getMemberRole() {
         return memberRole;
     }
@@ -121,15 +101,13 @@ public class MemberDTO implements UserDetails {
 
     @Override
     public String toString() {
-        return "MemberDto{" +
+        return "MemberDTO{" +
                 "memberNo=" + memberNo +
                 ", memberId='" + memberId + '\'' +
                 ", memberPwd='" + memberPwd + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
-                ", enrollDate=" + enrollDate +
                 ", memberRole='" + memberRole + '\'' +
                 ", memberStatus='" + memberStatus + '\'' +
                 '}';
