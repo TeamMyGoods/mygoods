@@ -19,29 +19,20 @@
     <header th:replace="common/header::header('product')"></header>
 
     <main class="px-3">
-        <p>
-            이미지 업로드 테스트 창
-        </p>
-        <div>
-            <form th:action="@{/product/fileupload}" id="uploadForm" enctype="multipart/form-data method=post">
-                <input type="file" id="imageInput" />
-            </form>
-            <hr />
-            <button onclick="upload()">
-                업로드
-            </button>
-            <hr />
-            <p>
-                업로드결과:
-            </p>
-            <p id="resultUploadPath"></p>
-        </div>
+        <form id="uploadForm" method="post" action="/product/upload" enctype="multipart/form-data">
+            　　<input type="file" id= "imageInput" name="imageInput" multiple="multiple" accept=".png, .jpg, .jpeg">
+            　　<button onclick="upload()" type="button" id="uploadBtn">업로드</button>
+        </form>
+
     </main>
 
     <footer th:replace="common/footer::footer"></footer>
 
 
+<script>
 
+
+</script>
 
 
     <script>
@@ -73,21 +64,23 @@
             }
 
 
-            // $.ajax({
-            //     type:"POST",
-            //     url: "/product/fileupload",
-            //     processData: false,
-            //     contentType: false,
-            //     data: formData,
-            //     success: function(rtn){
-            //         const message = rtn.data.values[0];
-            //         console.log("message: ", message)
-            //         $("#resultUploadPath").text(message.uploadFilePath)
-            //     },
-            //     err: function(err){
-            //         console.log("err:", err)
-            //     }
-            // })
+            $.ajax({
+                type:"POST",
+                entryType : "multipart/form-data",
+                url: "/product/upload",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function(rtn){
+                    console.log("test");
+                    // const message = rtn.data.values[0];
+                    // console.log("message: ", message)
+                    // $("#resultUploadPath").text(message.uploadFilePath)
+                },
+                err: function(err){
+                    console.log("err:", err)
+                }
+            })
         }
     </script>
 </div>
