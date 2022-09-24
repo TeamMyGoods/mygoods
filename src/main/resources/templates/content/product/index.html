@@ -22,38 +22,15 @@
 
         <form id="uploadForm" method="post" action="/product/upload" enctype="multipart/form-data">
             　　<input type="file" id= "imageInput" name="imageInput" multiple="multiple" accept=".png, .jpg, .jpeg">
-
-
-<!--            카메라-->
-<!--            <input type="file" id="cameraInput" name="imageInput" capture="camera" accept="image/**"/>-->
-<!--            <img id = "pic" style="width:100%">-->
-
-
             　　<button onclick="upload()" type="button" id="uploadBtn">업로드</button>
         </form>
 
-
-
-
+        <div id="productListBox" class="card" style=" display: flex; flex-direction:row; flex-wrap:wrap;"></div>
 
     </main>
 
     <footer th:replace="common/footer::footer"></footer>
 
-
-
-<!--    <script>-->
-<!--        $(document).ready(function (){-->
-<!--            if(!('url' in window) && ('webkitURL' in window)){-->
-<!--                window.URL = window.webkitURL;-->
-
-<!--            }-->
-
-<!--            $('#camera').change(function (e){-->
-<!--               $('#pic').attr('src', URL.createObjectURL(e.target.file[0]));-->
-<!--            });-->
-<!--        })-->
-<!--    </script>-->
 
     <script>
         function upload() {
@@ -91,11 +68,23 @@
                 processData: false,
                 contentType: false,
                 data: formData,
-                success: function(results){
-                    console.log(results);
-                    const result = JSON.parse(results);
-                    console.log(result.result);
-                    $("main").append("<img src='" + "data:image/jpg;base64," + result.img + "'>");
+                success: function(rawData){
+                    const results = JSON.parse(rawData);
+                    console.log(rawData.result);
+                    // $("#productListBox").append("<img src='" + "data:image/jpg;base64," + result.img + "'>");
+
+                    let cardStyleElements = "<div style=\"width: 200px; height: 300px;\">\n" +
+                        "<img style='width:200px; height: 200px;' src='" + "data:image/jpg;base64," + result.img + "'>" +
+                        "  <div style=\"height: 100px;\">\n" +
+                        "    <div>상품명은 여기에 작성</div>\n" +
+                        "    <p>상품내용은 여기에 작성</p>\n" +
+                        "    <a href=\"#\" class=\"btn btn-dark\">구매하기 버튼</a>\n" +
+                        "  </div>\n" +
+                        "</div>"
+
+                    for(let i = 0; i<6; i++){
+                        $("#productListBox").append(cardStyleElements);
+                    }
 
                 },
                 err: function(err){

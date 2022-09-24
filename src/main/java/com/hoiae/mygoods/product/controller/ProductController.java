@@ -32,16 +32,9 @@ public class ProductController {
     @PostMapping("/upload")
     public String uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
 
+        /*원본 파일명*/
         System.out.println(file.getOriginalFilename());
 
-//        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-//
-//        String serverUrl = "http://192.168.0.58:5000/facev1";
-//
-//        ResponseEntity<String> response = restTemplate
-//                .postForEntity(serverUrl, requestEntity, String.class);
-//
-//        System.out.println(response);
 
         //RestTemplate을 이용한 단일 파일 업로드
 
@@ -54,16 +47,17 @@ public class ProductController {
 
 
         /*request body*/
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<String, Object>(); //LinkedMultiValueMap은 LinkedList의 각 키에 대해 여러 값을 저장하는 LinkedHashMap을 래핑
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<String, Object>();
         System.out.println(file.getResource());
-        body.add("file", file.getResource()); //리소스 보내기
+        body.add("file", file.getResource());
 
-        HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(body, headers); //헤더와 본문 개체를 감싸는 HttpEntity 인스턴스를 생성하고 RestTemplate을 사용하여 게시한다.
-        ResponseEntity<String> response = restTemplate.postForEntity("https://photo-to-character-rvakk.run.goorm.io/Shinkai", entity, String.class); //restTemplate.postForEntity() 호출은 주어진 URL에 연결하고 파일을 서버로 보내는 작업을 완료
+        /*헤더와 본문 개체를 감싸는 HttpEntity 인스턴스를 생성하고 RestTemplate을 사용하여 게시한다.*/
+        HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(body, headers);
+
+        /*restTemplate.postForEntity() 호출은 주어진 URL에 연결하고 파일을 서버로 보내는 작업을 완료*/
+        ResponseEntity<String> response = restTemplate.postForEntity("https://photo-to-character-rvakk.run.goorm.io/Hayao", entity, String.class);
 
         System.out.println(response.getBody());
-
-//        Object obj = new JSONParser().parse(response.getBody());
 
         return response.getBody();
 
