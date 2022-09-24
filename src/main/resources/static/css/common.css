@@ -1,6 +1,5 @@
 /* 배경 화면 설정 */
 body {
-    background: url(../images/city1.png) no-repeat;
     background-size:cover;
     min-height:800px;
     background-color:black;
