@@ -1,8 +1,4 @@
 package com.hoiae.mygoods.product.controller;
-
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import org.apache.tomcat.util.json.JSONParser;
-import org.json.simple.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -35,6 +31,9 @@ public class ProductController {
         /*원본 파일명*/
         System.out.println(file.getOriginalFilename());
 
+        /* 파일업로드*/
+
+
 
         //RestTemplate을 이용한 단일 파일 업로드
 
@@ -55,7 +54,7 @@ public class ProductController {
         HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(body, headers);
 
         /*restTemplate.postForEntity() 호출은 주어진 URL에 연결하고 파일을 서버로 보내는 작업을 완료*/
-        ResponseEntity<String> response = restTemplate.postForEntity("https://photo-to-character-rvakk.run.goorm.io/Hayao", entity, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("https://7d663fa4-f5b9-47a2-98b1-7cbe746422fd.mock.pstmn.io/product", entity, String.class);
 
         System.out.println(response.getBody());
 
