@@ -22,8 +22,18 @@
 
         <form id="uploadForm" method="post" action="/product/upload" enctype="multipart/form-data">
             　　<input type="file" id= "imageInput" name="imageInput" multiple="multiple" accept=".png, .jpg, .jpeg">
+
+
+<!--            카메라-->
+<!--            <input type="file" id="cameraInput" name="imageInput" capture="camera" accept="image/**"/>-->
+<!--            <img id = "pic" style="width:100%">-->
+
+
             　　<button onclick="upload()" type="button" id="uploadBtn">업로드</button>
         </form>
+
+
+
 
 
     </main>
@@ -32,7 +42,18 @@
 
 
 
+<!--    <script>-->
+<!--        $(document).ready(function (){-->
+<!--            if(!('url' in window) && ('webkitURL' in window)){-->
+<!--                window.URL = window.webkitURL;-->
 
+<!--            }-->
+
+<!--            $('#camera').change(function (e){-->
+<!--               $('#pic').attr('src', URL.createObjectURL(e.target.file[0]));-->
+<!--            });-->
+<!--        })-->
+<!--    </script>-->
 
     <script>
         function upload() {
@@ -70,11 +91,12 @@
                 processData: false,
                 contentType: false,
                 data: formData,
-                success: function(rtn){
-                    console.log("test");
-                    // const message = rtn.data.values[0];
-                    // console.log("message: ", message)
-                    // $("#resultUploadPath").text(message.uploadFilePath)
+                success: function(results){
+                    console.log(results);
+                    const result = JSON.parse(results);
+                    console.log(result.result);
+                    $("main").append("<img src='" + "data:image/jpg;base64," + result.img + "'>");
+
                 },
                 err: function(err){
                     console.log("err:", err)
