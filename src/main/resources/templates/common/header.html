@@ -18,9 +18,13 @@
       </div>
     <nav style="margin-right: 100px" class="nav nav-masthead justify-content-center float-md-end ">
       <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'index'?'active':''" aria-current="page" th:href="@{/}">Home</a>
-      <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'product'?'active':''" th:href="@{/product}">Product</a>
+
+      <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'product'?'active':''" th:href="@{/product}">product</a>
+      <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'member'?'active':''" th:href="@{/member}">member</a>
+        <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'admin'?'active':''" th:href="@{/admin}">admin</a>
       <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'member'?'active':''" th:href="@{/member/mypage}">MyPage</a>
     </nav>
+
       <span class="nav-link py-1 px-0">
             <div class="login-area">
                 <!-- 로그인이 필요한 경우 -->
@@ -33,6 +37,7 @@
                 <th:block sec:authorize="isAuthenticated()">
                     <span class="login-info">
                         <span>
+
                             <span  sec:authentication="principal.nickname">
                             </span> <span>님</span>
                             <span class="btns">
