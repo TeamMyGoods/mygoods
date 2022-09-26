@@ -1,5 +1,5 @@
 /* 배경 화면 설정 */
-body {
+.body {
     background-size:cover;
     min-height:800px;
     background-color:black;
