@@ -43,9 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //권한별 접근 페이지 설정
         http
                 .authorizeRequests()
-                .mvcMatchers("/product/**", "/mypage/**", "/payment/**").hasAnyAuthority("ROLE_MEMBER", "ROLE_ADMIN")
+                .mvcMatchers("/product/**", "/member/mypage/**", "/payment/**").hasAnyAuthority("ROLE_MEMBER", "ROLE_ADMIN")
                 //.mvcMatchers("/notice/regist").hasAnyAuthority("ROLE_ADMIN")
-                .mvcMatchers("/**", "/member/**").permitAll()
+                .mvcMatchers("/**").permitAll()
                 .and()
                 .csrf().disable();
         //로그인 로그아웃 설정

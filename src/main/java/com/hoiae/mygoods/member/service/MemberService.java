@@ -57,7 +57,7 @@ public class MemberService {
             int result = mapper.deleteMember(member);
 
             if(!(result > 0)) {
-                throw new MemberRemoveException("회원탈퇴에 실패ㅎ셨습니다.");
+                throw new MemberRemoveException("회원탈퇴에 실패하셨습니다.");
             }
         }
 
