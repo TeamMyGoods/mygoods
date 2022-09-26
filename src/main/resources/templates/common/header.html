@@ -10,11 +10,17 @@
 
 <header class="mb-auto" th:fragment="header(menu)">
   <div style="display: flex; justify-content:space-between;">
-      <h3 style="margin-left: 100px">mygoods</h3>
-    <nav style="margin-right: 100px" class="nav nav-masthead justify-content-center ">
+<!--      <h3 style="margin-left: 100px">mygoods</h3>-->
+      <div style="max-height: 36px">
+          <a th:href="@{/}">
+            <img th:src="@{/image/Logo.png}" alt="Logo" height="50px">
+          </a>
+      </div>
+    <nav style="margin-right: 100px" class="nav nav-masthead justify-content-center float-md-end ">
       <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'index'?'active':''" aria-current="page" th:href="@{/}">Home</a>
-      <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'product'?'active':''" th:href="@{/product}">product</a>
-      <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'member'?'active':''" th:href="@{/member}">member</a>
+      <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'product'?'active':''" th:href="@{/product}">Product</a>
+      <a class="nav-link fw-bold py-1 px-0" th:classappend="${menu} == 'member'?'active':''" th:href="@{/member/mypage}">MyPage</a>
+    </nav>
       <span class="nav-link py-1 px-0">
             <div class="login-area">
                 <!-- 로그인이 필요한 경우 -->
@@ -38,7 +44,6 @@
                 </th:block>
             </div>
         </span>
-    </nav>
   </div>
 
 </header>

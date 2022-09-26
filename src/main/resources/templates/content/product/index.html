@@ -6,9 +6,9 @@
     <script type="text/javascript" th:src="@{/js/event.js}"></script>
     <title>mygoods</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <link href="cover.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="/css/cover.css" rel="stylesheet">
 
 
     <link href="/css/jquery-Jcrop-min.css" rel="stylesheet">
@@ -18,60 +18,51 @@
 <body class="d-flex h-100 text-center text-bg-dark">
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-
     <header th:replace="common/header::header('product')"></header>
-
     <main class="px-3">
-
         <div class="row">
             <div class="col-sm-6">
                 <h2>캐릭터 만들기</h2>
-                <img id="imgThumbnail" width="200" height="200" src="image/LogoBox.png" />
-                <img style="display: none" id="createdImg" width="200" height="200" src="image/LogoBox.png" />
+                <img id="imgThumbnail" width="200" height="200" src="image/LogoBox.png"/>
+                <img style="display: none" id="createdImg" width="200" height="200" src="image/LogoBox.png"/>
                 <a href="#" id="btnSelectThumbnail">사진 등록</a>
                 <a href="#" id="btnRemoveThumbnail">사진 제거</a>
             </div>
         </div>
 
-
         <div id="myModal" class="modal fade">
             <div class="modal-dialog modal-fullsize">
                 <div class="modal-content modal-fullsize">
-<!--                    <div class="modal-body padding-5">-->
-                        <div>
-                            <div id="jcrop"></div>
-                            <canvas id="canvas" style="display: none;"></canvas>
-                            <input id="png" type="hidden" style="display: none;" />
-                        </div>
-<!--                    </div>-->
+                    <!--                    <div class="modal-body padding-5">-->
+                    <div>
+                        <div id="jcrop"></div>
+                        <canvas id="canvas" style="display: none;"></canvas>
+                        <input id="png" type="hidden" style="display: none;"/>
+                    </div>
+                    <!--                    </div>-->
                     <div class="modal-footer padding-5">
 
                         <form id="uploadForm2" method="post" action="/product/upload" enctype="multipart/form-data">
-                            <input type="file" id= "imageInput" name="imageInput" multiple="multiple" accept=".png, .jpg, .jpeg">
+                            <input type="file" id="imageInput" name="imageInput" multiple="multiple"
+                                   accept=".png, .jpg, .jpeg">
                         </form>
 
-<!--                        <input id="file" type="file" />-->
+                        <!--                        <input id="file" type="file" />-->
                         <a href="#" id="btnSavePhoto">저장</a>
                     </div>
                 </div>
             </div>
         </div>
-
         <div id="productListBox" class="card" style="display: flex; flex-direction:row; flex-wrap:wrap;"></div>
-
-
         <form id="uploadForm" method="post" action="/product/upload" enctype="multipart/form-data">
-<!--            　　<input type="file" id= "imageInput" name="imageInput" multiple="multiple" accept=".png, .jpg, .jpeg">-->
-            　　<button onclick="upload()" type="button" id="uploadBtn">업로드</button>
+            <!--            　　<input type="file" id= "imageInput" name="imageInput" multiple="multiple" accept=".png, .jpg, .jpeg">-->
+            <button onclick="upload()" type="button" id="uploadBtn">업로드</button>
         </form>
-
     </main>
-
     <footer th:replace="common/footer::footer"></footer>
 
-
-
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="/js/jquery.min.js" type="text/javascript"></script>
     <script src="/js/jquery-Jcrop-min.js"></script>
     <script src="/js/bootstrap-min.js"></script>
@@ -118,6 +109,7 @@
             var picture_height;
             var crop_max_width = 500;
             var crop_max_height = 500;
+
             function picture(input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
@@ -143,6 +135,7 @@
                     reader.readAsDataURL(input.files[0]);
                 }
             }
+
             function canvas(coords) {
                 var imageObj = $("#jcrop img")[0];
                 var canvas = $("#canvas")[0];
@@ -233,16 +226,15 @@
             // 파일을 여러개 선택할 수 있으므로 files 라는 객체에 담긴다.
             console.log("imageInput: ", imageInput.files)
 
-            if(imageInput.files.length === 0){
+            if (imageInput.files.length === 0) {
                 alert("파일은 선택해주세요");
                 return;
             }
 
 
-
             const formData = new FormData();
 
-            console.log("formdata : ",formData );
+            console.log("formdata : ", formData);
 
 
             console.log(imageInput.files[0]);
@@ -252,18 +244,18 @@
                 console.log("key : ", key);
             }
             for (let value of formData.values()) {
-                console.log("value : ",value);
+                console.log("value : ", value);
             }
 
 
             $.ajax({
-                type:"POST",
-                entryType : "multipart/form-data",
+                type: "POST",
+                entryType: "multipart/form-data",
                 url: "/product/upload",
                 processData: false,
                 contentType: false,
                 data: formData,
-                success: function(rawData){
+                success: function (rawData) {
                     const results = JSON.parse(rawData);
                     console.log(results.result);
                     // $("#productListBox").append("<img src='" + "data:image/jpg;base64," + result.img + "'>");
@@ -273,18 +265,18 @@
                         "  <div style=\"height: 100px;\">\n" +
                         "    <div>상품명은 여기에 작성</div>\n" +
                         "    <p>상품내용은 여기에 작성</p>\n" +
-                        "    <a href=\"#\" class=\"btn btn-dark\">구매하기 버튼</a>\n" +
+                        "    <a href=\"payment/order/\" class=\"btn btn-dark\">구매하기 버튼</a>\n" +
                         "  </div>\n" +
                         "</div>"
 
                     $("#createdImg").show();
 
-                    for(let i = 0; i<6; i++){
+                    for (let i = 0; i < 6; i++) {
                         $("#productListBox").append(cardStyleElements);
                     }
 
                 },
-                err: function(err){
+                err: function (err) {
                     console.log("err:", err)
                 }
             })
@@ -293,5 +285,6 @@
     </script>
 
 </div>
+
 </body>
 </html>
