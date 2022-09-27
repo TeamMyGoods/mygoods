@@ -44,18 +44,6 @@ public class PaymentService {
 
     public String requestFinalPayment(String paymentKey, String orderId, Long amount, Model model) throws IOException, InterruptedException {
 
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(URI.create("https://api.tosspayments.com/v1/payments/confirm"))
-//                .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()))
-//                .header("Content-Type", "application/json")
-//                .method("POST", HttpRequest.BodyPublishers.ofString("{\"paymentKey\":\"" + paymentKey + "\",\"amount\":" + amount + ",\"orderId\":\"" + orderId + " \"}"))
-//                .build();
-//
-//        HttpResponse<String> response = (HttpResponse<String>) HttpClient.newHttpClient().send((HttpRequest) request, HttpResponse.BodyHandlers.ofString());
-//        System.out.println(response.body());
-//
-//        return response.body();
-
         HttpHeaders headers = new HttpHeaders();
         // headers.setBasicAuth(SECRET_KEY, ""); // spring framework 5.2 이상 버전에서 지원
         headers.set("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()));
@@ -81,21 +69,10 @@ public class PaymentService {
             model.addAttribute("code", failNode.get("code").asText());
             return "fail";
         }
+    }
 
-//        RestTemplate rest = new RestTemplate();
-//        HttpHeaders headers = new HttpHeaders();
-//
-//        String testSecretApiKey = "test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R:";
-//        String encodedAuth = new String(Base64.getEncoder().encode(testSecretApiKey.getBytes(StandardCharsets.UTF_8)));
-//        headers.setBasicAuth(encodedAuth);
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-//
-//        JSONPObject param = new JSONPObject();
-//        param.put("orderId", orderId);
-//        param.put("amount", amount);
-//
-//        return rest.postForEntity(tossOriginUrl + )
+    public int insertPayment(String paymentKey, String orderId, Long amount, String customerName, String orderName) {
 
+        return 0;
     }
 }
