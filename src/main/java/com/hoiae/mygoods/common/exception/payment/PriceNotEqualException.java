@@ -1,4 +1,4 @@
-package com.hoiae.mygoods.common.payment;
+package com.hoiae.mygoods.common.exception.payment;
 
 public class PriceNotEqualException extends Throwable {
 
