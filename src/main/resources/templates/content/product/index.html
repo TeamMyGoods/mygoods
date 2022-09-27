@@ -273,7 +273,9 @@
 
 
             console.log(imageInput.files[0]);
+            let no = 1;
             formData.append("image", imageInput.files[0]);
+
 
             for (let key of formData.keys()) {
                 console.log("key : ", key);
@@ -283,13 +285,15 @@
             }
 
 
+
+
             $.ajax({
                 type: "POST",
                 entryType: "multipart/form-data",
                 url: "/product/upload",
                 processData: false,
                 contentType: false,
-                data: formData,
+                data: formdata,
                 success: function (rawData) {
                     const results = JSON.parse(rawData);
                     console.log(results.result);
@@ -298,7 +302,7 @@
 
                     let cardStyleElements = " <div class=\"col py-3\">\n" +
                         "                        <div class=\"card shadow-sm\">\n" +
-                        "                            <img src=\"https://placeimg.com/200/100/any\">\n" +
+                        "                            <img src='" + "data:image/jpg;base64," + results.img + "'>\n" +
                         "                            <div class=\"card-body\">\n" +
                         "                                <p style=\"color:black\">상품설명이라고 볼 수 있겠네요</p>\n" +
                         "                                <div class=\"d-flex justify-content-between align-items-center\">\n" +
