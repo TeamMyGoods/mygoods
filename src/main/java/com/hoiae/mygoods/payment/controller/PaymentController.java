@@ -2,24 +2,24 @@ package com.hoiae.mygoods.payment.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hoiae.mygoods.common.payment.PriceNotEqualException;
+import com.hoiae.mygoods.common.exception.payment.OrderException;
+import com.hoiae.mygoods.common.exception.payment.PaymentException;
+import com.hoiae.mygoods.common.exception.payment.PriceNotEqualException;
+import com.hoiae.mygoods.payment.dto.OrderDTO;
 import com.hoiae.mygoods.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.net.http.HttpRequest;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,8 +56,28 @@ public class PaymentController {
         return "content/payment/order";
     }
 
+    @PostMapping("/order")
+    public ResponseEntity<String> insertOrder(@RequestBody Map<String, String> orderInfo) throws OrderException {
+
+        int orderCode = Integer.parseInt(orderInfo.get("orderCode"));
+        String orderSize = orderInfo.get("orderSize");
+        int amount = Integer.parseInt(orderInfo.get("amount"));
+        Date date = new Date(orderInfo.get("date"));
+        String memberCode = orderInfo.get("memberCode");
+        String productCode = orderInfo.get("productCode");
+
+        OrderDTO order = new OrderDTO(orderCode, orderSize, amount, date,  memberCode, productCode);
+
+        int result = paymentService.insertOrder(order);
+
+        String message = "주문내역 입력 성공";
+
+
+        return ResponseEntity.ok(message);
+    }
+
     @GetMapping("/success")
-    public String requestPayments(Model model, @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount) throws PriceNotEqualException, IOException, InterruptedException {
+    public String requestPayments(Model model, @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount) throws PriceNotEqualException, IOException, InterruptedException, PaymentException {
 //        System.out.println("paymentKey : " + paymentKey);
 //        System.out.println("orderId : " + orderId);
 //        System.out.println("amount : " + amount);

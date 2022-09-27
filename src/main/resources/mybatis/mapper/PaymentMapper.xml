@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hoiae.mygoods.payment.dao.PaymentMapper">
+
+    <insert id="insertPaymentInfo" parameterType="PaymentDTO">
+        INSERT
+        INTO TBL_PAYMENT
+            (
+             A.PAYMENT_CODE
+           , A.IS_PAID
+           , A.ORDER_CODE
+           , A.IS_REFUNDED
+            )
+        VALUES
+            (
+                  #{paymentKey}
+                , "SUCCESS"
+                , #{orderId}
+                , "N"
+            )
+    </insert>
+
+</mapper>

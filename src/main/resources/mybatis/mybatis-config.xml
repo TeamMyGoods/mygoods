@@ -10,6 +10,7 @@
 
 	<typeAliases>
 		<typeAlias alias="MemberDTO" type="com.hoiae.mygoods.member.dto.MemberDTO" />
+		<typeAlias alias="PaymentDTO" type="com.hoiae.mygoods.payment.dto.PaymentDTO"/>
 	</typeAliases>
 
 	<mappers>
