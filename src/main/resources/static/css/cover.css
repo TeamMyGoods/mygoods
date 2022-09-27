@@ -2,6 +2,8 @@
  * Globals
  */
 
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+
 .btn btn-ed{
     color : white;
 }
@@ -56,15 +58,281 @@ a {
     border-bottom-color: #fff;
 }
 
-/*.modal-dialog.modal-fullsize {*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*}*/
+.modal-dialog.modal-fullsize {
+    width: 100%;
+    /*height: 100%;*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+}
 
 .modal-content.modal-fullsize {
      height: auto;
-     min-height: 100%;
+     /*min-height: 100%;*/
      border-radius: 0;
  }
+
+
+
+html,body{
+    margin:0;
+    padding:0;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+}
+
+.header{
+    border-bottom: 1px solid #DCDCDC;
+}
+.youtube-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.youtube-container-item{
+    width: 319px;
+    display: flex;
+    flex-flow: column;
+    margin: 10px;
+}
+
+
+.thumbnail-box{
+    width: 319px;
+    height: 179px;
+
+}
+
+.thumbnail{
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-title{
+    width: 319px;
+    height: 20px;
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* ===============================util========================================= */
+
+.d-none{
+    display: none;
+}
+.d-flex{
+    display: flex;
+}
+.d-flex-column{
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-list{
+    height: 50px;
+    background-color: #D9D9D9;
+}
+
+li.nav-item{
+    height: 50px;
+    color: "#000000";
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin : 0 10px;
+
+}
+
+
+
+/* =============================footer====================================== */
+.d-none{
+    display: none;
+}
+
+.footer{
+    /* text */
+    font-size:12px;
+
+    padding: 40px 40px;
+    border-top: 1px solid #DCDCDC;
+
+}
+
+
+
+.twitter, .facebook{
+    margin-left: 10px;
+
+}
+
+
+nav {
+    align-items: center;
+    display: flex;
+    font-weight: bold;
+    justify-content: flex-start;
+}
+
+
+
+.page-category-select{
+    width: 200px;
+    height: 36px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+@media screen and (min-width:1024px){
+
+    #root{
+        margin-top: 59px;
+        padding: 0 160px;
+    }
+    footer{
+        padding: 40px 160px;
+    }
+
+    .signup{
+        margin-right: 160px;
+    }
+
+    .menu-box, .search{
+        display: none;
+    }
+
+    .desktop-home{
+        display: block;
+        margin-left:160px;
+    }
+
+    .desktop-menu{
+        display: flex;
+        margin:0 auto;
+    }
+
+    .desktop-menu-item-box:hover{
+        border-bottom: 2px solid #FA0050;
+    }
+
+    .desktop-menu-item{
+        display: inline-block;
+        white-space: nowrap;
+        padding: 5px 10px;
+    }
+
+    .desktop-search{
+        width: 520px;
+        display: flex;
+        margin-left: 20px;
+    }
+
+    .input-desktop-search{
+
+        height: 10px;
+        border: none;
+        border-radius: 5px;
+        padding:14px;
+    }
+
+}
+
+
+/* ==========================button====================================== */
+
+.btn-instagram,
+.btn-twitter,
+.btn-facebook
+{
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    background-image: url('../image/facebook.svg');
+    background-repeat: no-repeat;
+    overflow:hidden;
+    text-indent: -999px;
+}
+
+.btn-twitter{
+    background-image: url('../image/twitter.svg');
+}
+
+.btn-instagram{
+    background-image: url('../image/instagram.svg');
+}
+
+
+/* ==============================font============================== */
+.c-000{
+    color:#000;
+}
+
+.c-FFF{
+    color:#FFF;
+}
+
+.c-6297BA{
+    color:#6297BA;
+}
+
+.c-555555{
+    color:#555555;
+}
+
+.c-D9D9D9{
+    color:#D9D9D9;
+}
+
+.hover-font-6297BA:hover{
+    color:#6297BA;
+}
+
+
+.font-size-1{
+    font-size: 12px;
+}
+.font-size-2{
+    font-size: 16px;
+}
+
+.font-size-3{
+    font-size: 24px;
+}
+
+.font-size-4{
+    font-size: 32px;
+}
+
+.font-size-5{
+    font-size:64px;
+}
+
+.spoqa-bold {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif' !important;
+    font-weight: bold !important;
+}
+
+.spoqa-normal{
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif' !important;
+
+}
+
+.spoqa-lighter{
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif' !important;
+    font-weight: lighter;
+}
+
+.nanum-bold{
+    font-family: 'Nanum Gothic', sans-serif;
+    font-weight:700;
+}
+
+.nanum-normal{
+    font-family: 'Nanum Gothic', sans-serif;
+    font-weight:400;
+}
