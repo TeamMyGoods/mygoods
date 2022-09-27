@@ -2,23 +2,14 @@ package com.hoiae.mygoods.payment.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.hoiae.mygoods.common.payment.PriceNotEqualException;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,7 +62,7 @@ public class PaymentService {
         }
     }
 
-    public int insertPayment(String paymentKey, String orderId, Long amount, String customerName, String orderName) {
+    public int insertPayment(String paymentKey, String orderId, Long amount, String productName, String productSize) {
 
         return 0;
     }

@@ -57,10 +57,14 @@ public class PaymentController {
     }
 
     @GetMapping("/success")
-    public String requestPayments(Model model, @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount, @RequestParam String customerName, @RequestParam String orderName) throws PriceNotEqualException, IOException, InterruptedException {
-        System.out.println("paymentKey : " + paymentKey);
-        System.out.println("orderId : " + orderId);
-        System.out.println("amount : " + amount);
+    public String requestPayments(Model model, @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount) throws PriceNotEqualException, IOException, InterruptedException {
+//        System.out.println("paymentKey : " + paymentKey);
+//        System.out.println("orderId : " + orderId);
+//        System.out.println("amount : " + amount);
+//        String productName = customerName.split("/")[0];
+//        String productSize = customerName.split("/")[1];
+//        System.out.println(productName);
+//        System.out.println(productSize);
 
         paymentService.verifyRequest(paymentKey, orderId, amount);
 //        String result = paymentService.requestFinalPayment(paymentKey, orderId, amount, model);
@@ -79,17 +83,23 @@ public class PaymentController {
         ResponseEntity<JsonNode> responseEntity = restTemplate.postForEntity(
                 "https://api.tosspayments.com/v1/payments/" + paymentKey, request, JsonNode.class);
 
-        model.addAttribute("customerName", customerName);
-        model.addAttribute("orderName", orderName);
+//        model.addAttribute("customerName", customerName);
+//        model.addAttribute("orderName", orderName);
 
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             JsonNode successNode = responseEntity.getBody();
+            String productName = successNode.get("orderName").asText().split("/")[0];
+            String productSize = successNode.get("orderName").asText().split("/")[1];
+
             System.out.println(successNode);
             model.addAttribute("orderId", successNode.get("orderId").asText());
+            model.addAttribute("productName", productName);
+            model.addAttribute("productSize", productSize);
+
             String secret = successNode.get("secret").asText(); // 가상계좌의 경우 입금 callback 검증을 위해서 secret을 저장하기를 권장함
 
             // service 로직 필요.
-            int result = paymentService.insertPayment(paymentKey, orderId, amount, customerName, orderName);
+            int result = paymentService.insertPayment(paymentKey, orderId, amount,productName, productSize);
             
             return "content/payment/success";
         } else {
@@ -105,5 +115,19 @@ public class PaymentController {
         model.addAttribute("message", message);
         model.addAttribute("code", code);
         return "fail";
+    }
+
+    @GetMapping("/testSuccess")
+    public String paymentTest(Model model){
+        model.addAttribute("orderId", "0-123123123");
+        model.addAttribute("productName", "hoiae");
+        model.addAttribute("productSize", "ordernamd");
+        return "content/payment/success";
+    }
+
+    @GetMapping("/testFail")
+    public String paymentFail(Model model){
+        model.addAttribute("customername", "hoiae");
+        return "content/payment/fail";
     }
 }
