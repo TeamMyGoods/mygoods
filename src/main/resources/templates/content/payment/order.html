@@ -100,13 +100,16 @@
 
             let clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'
             let tossPayments = TossPayments(clientKey)
-            let orderName = document.getElementById('orderName') + ' ' + document.getElementById('size')
-            let amount = String.valueOf(document.getElementById('amount'))
+            let orderName = document.getElementById('orderName').textContent.toString();
+            let amount = document.getElementById('amount').textContent.toString().replace('원', '')
+            amount = parseInt(amount.replace(',', ''));
             let button = document.getElementById('payment-button') // 결제하기 버튼
             let orderId = generateRandomString(40);
 
             button.addEventListener('click', function () {
-                console.log(amount)
+                console.log(amount);
+                console.log(orderId);
+                console.log(orderName);
                 tossPayments.requestPayment('카드', {
                     amount: amount,
                     orderId: orderId,

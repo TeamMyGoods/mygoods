@@ -13,6 +13,7 @@
     <link href="/css/bootstrap-min.css" rel="stylesheet">
     <link href="/css/jquery-Jcrop-min.css" rel="stylesheet">
     <link href="/css/cover.css" rel="stylesheet">
+    <script src="https://js.tosspayments.com/v1"></script>
 
 </head>
 <body class="d-flex h-100 text-center text-bg-dark">
@@ -91,6 +92,80 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="modalPayment" tabindex="-1" aria-labelledby="modalPaymentLabel" aria-hidden="true">
+            <!--        <div class="modal fade modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog" id="modalPayment">-->
+            <div class="modal-dialog">
+                <div class="modal-content rounded-4 shadow">
+                    <div class="modal-header p-5 pb-4 border-bottom-0">
+                        <!-- <h5 class="modal-title">Modal title</h5> -->
+                        <h2 class="fw-bold mb-0 text-dark" id="modalPaymentLabel" style="margin-left:6rem">결제 정보 확인</h2>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" style="margin-left:0"></button>
+                    </div>
+
+                    <div class="modal-body p-5 pt-0">
+                        <form class="" style="display: flex; flex-direction: column; justify-content: center">
+                            <div class="form-floating mb-3" style="display: flex; justify-content: center">
+                                <div class="card">
+                                    <img src="https://upload.wikimedia.org/wikipedia/ko/b/b6/IU_Palette_final.jpg"
+                                         class="card-img-top" alt="...">
+                                    <div class="card-body text-dark text-left">
+                                        <h5 class="card-title" style="margin-bottom:10px" id="orderName">IU goods</h5>
+                                        <p class="card-text" id="amount">100원</p>
+                                        <div style="display: flex; flex-direction: row; justify-content: space-between; text-align: center">
+                                            <p style="margin-bottom: 0; vertical-align: center">사이즈 :</p>
+                                            <select class="form-select" aria-label="Default select example" id="size" style="max-width:150px; margin-top:0.5rem">
+                                                <option selected value="S">S</option>
+                                                <option value="M">M</option>
+                                                <option value="L">L</option>
+                                                <option value="XL">XL</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="mb-2 btn btn-lg rounded-3 btn-primary" style="width:250px; margin-left:auto; margin-right:auto" type="button"
+                                    id="payment-button">결제하기
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const generateRandomString = (num) => {
+                const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+                let result = '';
+                const charactersLength = characters.length;
+                for (let i = 0; i < num; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                return result;
+            }
+
+            let clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'
+            let tossPayments = TossPayments(clientKey)
+            let orderName = document.getElementById('orderName').textContent.toString() + '/' + document.getElementById('size').value.toString();
+            let amount = document.getElementById('amount').textContent.toString().replace('원', '')
+            amount = parseInt(amount.replace(',', ''));
+            let button = document.getElementById('payment-button') // 결제하기 버튼
+            let orderId = generateRandomString(40);
+
+            button.addEventListener('click', function () {
+                console.log(amount);
+                console.log(orderId);
+                console.log(orderName);
+                tossPayments.requestPayment('카드', {
+                    amount: amount,
+                    orderId: orderId,
+                    orderName: orderName,
+                    customerName: 'hoiae',
+                    successUrl: 'http://localhost:8080/payment/success',
+                    failUrl: 'http://localhost:8080/payment/fail',
+                })
+            })
+        </script>
 
     </main>
 
@@ -303,7 +378,7 @@
                         "                                <p style=\"color:black\">상품설명이라고 볼 수 있겠네요</p>\n" +
                         "                                <div class=\"d-flex justify-content-between align-items-center\">\n" +
                         "                                    <div class=\"btn-group\">\n" +
-                        "                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">구매</button>\n" +
+                        "                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" id=\"payFor\" data-toggle=\"modal\" data-target=\"#modalPayment\">구매</button>\n" +
                         "                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">저장</button>\n" +
                         "                                    </div>\n" +
                         "                                    <small class=\"text-muted\">10,000 원</small>\n" +
