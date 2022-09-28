@@ -86,8 +86,6 @@ public class ProductController {
                     System.out.println("파일경로 " +   fileUploadDirectory + "/" + savedFileName);
 
 
-
-
                     CharacterDTO character  = new CharacterDTO();
                     character.setMemberNo(1);
                     character.setModelName("초상화 Hosoda ");
@@ -145,8 +143,6 @@ public class ProductController {
 
         ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
 
-
-
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(response.getBody());
         JSONObject jsonObj = (JSONObject) obj;
@@ -169,11 +165,12 @@ public class ProductController {
     public String uploadImage(@RequestParam("image") MultipartFile userImage,
                               @RequestParam("categoryCode") String categoryCode,
                               @RequestParam("modelName") String modelName,
-                              ) throws IOException, ParseException {
+                              HttpServletRequest request
+    ) throws IOException, ParseException {
 
         /*원본파일명, 카테고리코드, 모델코드 출력*/
         System.out.println("file : " + userImage.getOriginalFilename());
-        System.out.println("categoryName : " + categoryName);
+        System.out.println("categoryCode : " + categoryCode);
         System.out.println("modelName : " + modelName);
 
         /* 파일업로드*/
@@ -266,7 +263,7 @@ public class ProductController {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<String, Object>();
         System.out.println(userImage.getResource());
         body.add("file", userImage.getResource());
-        body.add("categoryName",categoryName);
+        body.add("categoryCode",categoryCode);
 
 
         /*헤더와 본문 개체를 감싸는 HttpEntity 인스턴스를 생성하고 RestTemplate을 사용하여 게시한다.*/
@@ -288,11 +285,6 @@ public class ProductController {
         System.out.println("json['result'] : " + jsonObj.get("result"));
         System.out.println("json['img'] : " + jsonObj.get("img"));
 
-        String changeImg = (String) jsonObj.get("img");
-        byte[] binary = Base64.getDecoder().decode(changeImg);
-
-        String savedFileName = "(p)" + UUID.randomUUID().toString().replace("-", "");
-        Files.write(Paths.get("D:\\mygoods\\mygoods\\src\\main\\resources\\upload\\change\\"+savedFileName+".jpg"), binary);
 
 
         return response.getBody();
