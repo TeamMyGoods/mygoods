@@ -21,12 +21,12 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header th:replace="common/header::header('product')"></header>
     <main class="px-3">
-        <div class="row">
-            <div class="col-sm-6">
+        <div style="display: flex; align-content: center" class="row">
+            <div class="col-sm-6" style="display: flex; flex-direction: column; align-items : center;">
                 <h2>캐릭터 만들기</h2>
 
 
-                <div style="display: flex">
+                <div>
                     <img id="imgThumbnail" width="200" height="200" src="image/LogoBox.png"/>
                     <img style="display: none" id="createdImg" width="200" height="200" src="image/LogoBox.png"/>
                 </div>
@@ -37,7 +37,16 @@
                 </div>
 
 
-                <select class="form-control" id="categorySelect">
+
+
+
+            </div>
+
+
+            <div style="display: flex; flex-direction: column; align-items: center">
+
+                <div>캐릭터 모델 선택</div>
+                <select class="form-control" id="modelSelect">
                     <option value="디즈니필터">디즈니필터</option>
                     <option value="초상화 Hosoda">초상화 Hosoda</option>
                     <option value="초상화 Hayao">초상화 Hayao</option>
@@ -49,14 +58,21 @@
                     <option value="웹툰 paprika">웹툰 paprika</option>
                 </select>
 
-                <select class="form-control" id="modelSelect">
-                    <option value="1">티셔츠</option>
-                    <option value="2">접시</option>
-                    <option value="3">에코백</option>
+                <div>상품 선택</div>
+                <select class="form-control" id="categorySelect">
+                    <option value="티셔츠">티셔츠</option>
+                    <option value="접시">접시</option>
+                    <option value="에코백">에코백</option>
                 </select>
+            </div>
 
+
+            <div style="display: flex; justify-content: center">
+                <button class="btn btn-danger" onclick="characterUpload()" type="button" id="characterUploadBtn">캐릭터 생성하기</button>
+                <button class="btn btn-danger" onclick="upload()" type="button" id="uploadBtn">굿즈 제작하기</button>
 
             </div>
+
         </div>
 
         <div id="myModal" class="modal fade">
@@ -84,8 +100,7 @@
         </div>
 
 
-        <button class="btn btn-danger" onclick="characterUpload()" type="button" id="characterUploadBtn">캐릭터 생성하기</button>
-            <button class="btn btn-danger" onclick="upload()" type="button" id="uploadBtn">굿즈 제작하기</button>
+
 
 
 
@@ -256,14 +271,14 @@
             console.log(imageInput.files[0]);
 
 
-            let categoryCode = $("#categorySelect option:selected").val();
+            let categoryName = $("#categorySelect option:selected").val();
             let modelName = $("#modelSelect option:selected").val();
 
-            console.log("선택된 카테고리 코드 : "  + categoryCode);
-            console.log("선택된 모델 코드 : "  + categoryCode);
+            console.log("선택된 카테고리 코드 : "  + categoryName);
+            console.log("선택된 모델 코드 : "  + categoryName);
 
             formData.append("image", imageInput.files[0]);
-            formData.append("categoryCode",categoryCode);
+            formData.append("categoryName",categoryName);
             formData.append("modelName",modelName);
 
 
