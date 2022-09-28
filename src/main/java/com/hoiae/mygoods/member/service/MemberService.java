@@ -4,7 +4,7 @@ import com.hoiae.mygoods.common.exception.member.MemberModifyException;
 import com.hoiae.mygoods.common.exception.member.MemberRegistException;
 import com.hoiae.mygoods.common.exception.member.MemberRemoveException;
 import com.hoiae.mygoods.member.dao.MemberMapper;
-import com.hoiae.mygoods.member.dto.FindOrderDTO;
+import com.hoiae.mygoods.member.dto.MyCharacterDTO;
 import com.hoiae.mygoods.member.dto.MemberDTO;
 import com.hoiae.mygoods.member.dto.OrderHistoryDTO;
 import org.slf4j.Logger;
@@ -76,4 +76,12 @@ public class MemberService {
 
         return mapper.selectMemberNoById(username);
     }
+
+    public List<MyCharacterDTO> findCharacterList(int memberNo) {
+
+            List<MyCharacterDTO> characterList = mapper.findCharacterList(memberNo);
+            return characterList;
+    }
+
+
 }

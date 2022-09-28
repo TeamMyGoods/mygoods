@@ -5,11 +5,10 @@ import com.hoiae.mygoods.common.exception.member.MemberModifyException;
 import com.hoiae.mygoods.common.exception.member.MemberRegistException;
 import com.hoiae.mygoods.common.exception.member.MemberRemoveException;
 import com.hoiae.mygoods.common.util.SessionUtil;
-import com.hoiae.mygoods.member.dto.FindOrderDTO;
+import com.hoiae.mygoods.member.dto.MyCharacterDTO;
 import com.hoiae.mygoods.member.dto.MemberDTO;
 import com.hoiae.mygoods.member.dto.OrderHistoryDTO;
 import com.hoiae.mygoods.member.service.MemberService;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -145,7 +144,7 @@ public class MemberController {
         System.out.println("username :" + username);
         System.out.println("password :" + password);
 
-
+        /**/
 
         int memberNo = selectMemberNoById();
         System.out.println("findOrder:"+memberNo);
@@ -154,8 +153,17 @@ public class MemberController {
         orderList.forEach(System.out::println);
         model.addAttribute("orderList", orderList );
 
-        //username을 통해서 사용자 아이디를 가져올수 있음.
-        /*20220927로그인정보 가져오기 테스트*/
+        /**/
+
+//        int memberNo = selectMemberNoById();
+//        System.out.println("findOrder:"+memberNo);
+
+        List<MyCharacterDTO> characterList = memberService.findCharacterList(memberNo);
+//        System.out.println("=========================================");
+//        characterList.forEach(System.out::println);
+//        System.out.println("=========================================");
+        model.addAttribute("characterList", characterList );
+
         return "content/member/mypage";
     }
 
@@ -191,6 +199,21 @@ public class MemberController {
         mv.setViewName("content/member/orderHistory");
         return mv;
     }
+    /*캐릭터 이미지 가져오기*/
+    @GetMapping("/character")
+    public ModelAndView findCharacterList(ModelAndView mv){
+        System.out.println("asdfasdafdsfda");
+        int memberNo = selectMemberNoById();
+        System.out.println("findOrder:"+memberNo);
+
+        List<MyCharacterDTO> characterList = memberService.findCharacterList(memberNo);
+        System.out.println("=========================================");
+        characterList.forEach(System.out::println);
+        System.out.println("=========================================");
+        mv.addObject("characterList", characterList );
+        mv.setViewName("content/member/mycharacter");
+        return mv;
+    }
 
     /*MEMBER_NO가져오기*/
     public int selectMemberNoById(){
@@ -201,6 +224,9 @@ public class MemberController {
         System.out.println("username :" + username);
         //username을 통해서 사용자 아이디를 가져올수 있음.
         /*20220927로그인정보 가져오기 테스트*/
+
+        String rootPath = System.getProperty("user.dir");
+        System.out.println("루루루트경로: "+rootPath);
         int result = memberService.selectMemberNoById(username);
         System.out.println("memberNo :"+result);
         return result;

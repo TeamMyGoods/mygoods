@@ -6,10 +6,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -18,7 +15,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -28,6 +27,9 @@ import java.util.*;
 public class ProductController {
 
     private final ProductService productService;
+
+//    @Value("${image.image-dir}")
+//    private String IMAGE_DIR;
 
     @Value("${image.image-dir}")
     private String IMAGE_DIR;
@@ -48,7 +50,6 @@ public class ProductController {
 
 
         System.out.println("image : " + image.getOriginalFilename());
-
 
         String rootLocation = IMAGE_DIR;
 
@@ -85,16 +86,12 @@ public class ProductController {
                     System.out.println("파일경로 " +   fileUploadDirectory + "/" + savedFileName);
 
 
-
-
                     CharacterDTO character  = new CharacterDTO();
                     character.setMemberNo(1);
                     character.setModelName("초상화 Hosoda ");
                     character.setCharacterImageUrl(savedFileName);
 
-
                     productService.registCharacter(character);
-
 
                 }
             }
@@ -110,8 +107,6 @@ public class ProductController {
                 File deleteFile = new File(fileUploadDirectory + "/" + file.get("savedFileName"));
                 boolean isDeleted1 = deleteFile.delete();
 
-
-
                 if (isDeleted1) {
                     cnt++;
                 }
@@ -124,8 +119,6 @@ public class ProductController {
             }
         }
 
-
-
         //RestTemplate을 이용한 단일 파일 업로드
 
         /*  create RestTemplate instance*/
@@ -134,7 +127,6 @@ public class ProductController {
         /*request header*/
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
 
         /*request body*/
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<String, Object>();
@@ -151,8 +143,6 @@ public class ProductController {
 
         ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
 
-
-
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(response.getBody());
         JSONObject jsonObj = (JSONObject) obj;
@@ -164,31 +154,32 @@ public class ProductController {
         System.out.println("binary" + binary);
 
         String savedFileName = "(c)" + UUID.randomUUID().toString().replace("-", "");
-        Files.write(Paths.get("D:\\mygoods\\mygoods\\src\\main\\resources\\upload\\change\\"+savedFileName+".jpg"), binary);
-
+//        Files.write(Paths.get("D:\\mygoods\\mygoods\\src\\main\\resources\\upload\\change\\"+savedFileName+".jpg"), binary);
+        Files.write(Paths.get(rootLocation+"\\upload\\change\\"+savedFileName+".jpg"), binary);
 
         return response.getBody();
     }
 
-
-
     @ResponseBody
     @PostMapping("/upload")
     public String uploadImage(@RequestParam("image") MultipartFile userImage,
-                              @RequestParam("categoryName") String categoryName,
-                              @RequestParam("modelName") String modelName
-                              ) throws IOException, ParseException {
+                              @RequestParam("categoryName") String categoryCode,
+                              @RequestParam("modelName") String modelName,
+                              HttpServletRequest request
+    ) throws IOException, ParseException {
 
         /*원본파일명, 카테고리코드, 모델코드 출력*/
         System.out.println("file : " + userImage.getOriginalFilename());
-        System.out.println("categoryName : " + categoryName);
+        System.out.println("categoryCode : " + categoryCode);
         System.out.println("modelName : " + modelName);
 
         /* 파일업로드*/
-
         String rootLocation = IMAGE_DIR;
 
-        String fileUploadDirectory = rootLocation + "/upload/original";
+        String fileUploadDirectory = rootLocation + "\\upload\\original";
+        System.out.println("test!");
+        System.out.println(fileUploadDirectory);
+
         File directory = new File(fileUploadDirectory);
 
         if(!directory.exists()){
@@ -209,7 +200,7 @@ public class ProductController {
                     String savedFileName = "(p)" + UUID.randomUUID().toString().replace("-", "") + ext;
 
 
-                    paramFile.transferTo(new File(fileUploadDirectory + "/" + savedFileName));
+                    paramFile.transferTo(new File(fileUploadDirectory + "\\" + savedFileName));
 
                     /* DB에 업로드한 파일의 정보를 저장하는 비지니스 로직 수행 */
                     /* 필요한 정보를 Map에 담는다. */
@@ -272,7 +263,7 @@ public class ProductController {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<String, Object>();
         System.out.println(userImage.getResource());
         body.add("file", userImage.getResource());
-        body.add("categoryName",categoryName);
+        body.add("categoryCode",categoryCode);
 
 
         /*헤더와 본문 개체를 감싸는 HttpEntity 인스턴스를 생성하고 RestTemplate을 사용하여 게시한다.*/
@@ -294,11 +285,6 @@ public class ProductController {
         System.out.println("json['result'] : " + jsonObj.get("result"));
         System.out.println("json['img'] : " + jsonObj.get("img"));
 
-        String changeImg = (String) jsonObj.get("img");
-        byte[] binary = Base64.getDecoder().decode(changeImg);
-
-        String savedFileName = "(p)" + UUID.randomUUID().toString().replace("-", "");
-        Files.write(Paths.get("D:\\mygoods\\mygoods\\src\\main\\resources\\upload\\change\\"+savedFileName+".jpg"), binary);
 
 
         return response.getBody();

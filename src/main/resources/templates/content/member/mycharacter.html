@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        padding-top: 20px;
+        padding-bottom: 40px;
+        background-color: #212529;
+        color: white;
+      }
+  </style>
+</head>
+<body>
+    <main class="m-auto">
+        <h1>나의 캐릭터</h1>
+        <div style="display: flex; flex-direction: row;" th:each="character:${ characterList }">
+
+            <div th:if="${character == null}"> 조회된 데이터가 없습니다.></div>
+            <span  th:if="${character != null}">
+<!--                <img th:src="${character.characterImageURL}" alt="dd" width="300px" height="300px"/>-->
+                <img th:src="'/change/'+${character.characterImageURL}" alt="dd" width="300px" height="300px"/>
+<!--                <div th:text="${character.characterImageURL}"></div>-->
+<!--                <div th:text="'D:/mygoods/src/main/resources/upload/change/'+${character.characterImageURL}"></div>-->
+            </span>
+        </div>
+
+<!--        <table class="table table-dark table-striped table-hover">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>이미지</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="character:${characterList}">-->
+<!--                <td th:if="${character == null}"> 조회된 데이터가 없습니다.</td>-->
+
+<!--                <td th:if="${character != null}">-->
+<!--&lt;!&ndash;                    <td th:text="${character.characterImageURL}">주문코드</td>&ndash;&gt;-->
+<!--                    <img th:src="${character.characterImageURL}" alt="dd" width="300px" height="300px"/>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+    </main>
+
+</body>
+</html>
