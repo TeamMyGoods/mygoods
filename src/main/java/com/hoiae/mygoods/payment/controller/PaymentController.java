@@ -73,13 +73,15 @@ public class PaymentController {
 
         String orderCode = orderInfo.get("orderCode");
         String orderSize = orderInfo.get("orderSize");
+        String zipCode = orderInfo.get("zipCode");
+        String address = orderInfo.get("address");
         int amount = Integer.parseInt(orderInfo.get("amount"));
         System.out.println("amount = " + amount);
 
         Date date = new Date(); // 서버 시간으로 사용
         int productCode = Integer.parseInt(orderInfo.get("productCode"));
 
-        OrderDTO order = new OrderDTO(orderCode, orderSize, amount, date,  memberNo, productCode);
+        OrderDTO order = new OrderDTO(orderCode, orderSize, amount, date,  memberNo, productCode, zipCode, address);
         System.out.println(order);
 
         int result = paymentService.insertOrder(order);

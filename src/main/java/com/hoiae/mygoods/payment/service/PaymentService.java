@@ -20,8 +20,8 @@ public class PaymentService {
     private final PaymentMapper mapper;
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private String beforePaymentKey = "100"; // DB에서 가져왔다고 가정
 
+//    private String beforePaymentKey = "100"; // DB에서 가져왔다고 가정
     public PaymentService(PaymentMapper mapper){
         this.mapper = mapper;
     }
@@ -30,7 +30,11 @@ public class PaymentService {
     private final String SECRET_KEY = "test_ak_mnRQoOaPz8LwjZD1Oljry47BMw6v";
     public void verifyRequest(String paymentKey, String orderId, Long amount) throws PriceNotEqualException {
 
-        if(Long.parseLong(beforePaymentKey) == amount){
+        String orderPrice = mapper.selectPriceByOrderId(orderId);
+
+        System.out.println(orderPrice);
+
+        if(Long.parseLong(orderPrice) == amount){
             System.out.println("값이 일치합니다.");
         } else{
             System.out.println("값이 일치하지 않습니다.");

@@ -16,7 +16,7 @@
 
     <insert id="insertPaymentInfo" parameterType="PaymentDTO">
         INSERT
-        INTO TBL_PAYMENT
+        INTO TBL_PAYMENT A
             (
              A.PAYMENT_CODE
            , A.IS_PAID
@@ -25,10 +25,10 @@
             )
         VALUES
             (
-              #{paymentKey}
-            , "SUCCESS"
-            , #{orderId}
-            , "N"
+              #{paymentCode}
+            , #{isPaid}
+            , #{orderCode}
+            , 'N'
             )
     </insert>
 
@@ -42,6 +42,8 @@
           , A.MEMBER_NO
           , A.PRODUCT_SIZE
           , A.PRODUCT_CODE
+          , A.ZIPCODE
+          , A.ADDRESS
         )
         VALUES
             (
@@ -51,6 +53,8 @@
               , #{memberCode}
               , #{size}
               , #{productCode}
+              , #{zipCode}
+              , #{address}
             )
     </insert>
 
@@ -78,6 +82,13 @@
         FROM TBL_CHARACTER A
         GROUP BY TO_CHAR(A.MODEL_NAME)
         ORDER BY NAME DESC
+    </select>
+
+    <select id="selectPriceByOrderId" resultType="string">
+        SELECT
+                A.ORDER_AMOUNT
+          FROM TBL_PRODUCT_ORDER A
+         WHERE A.ORDER_CODE = #{orderId}
     </select>
 
 </mapper>
