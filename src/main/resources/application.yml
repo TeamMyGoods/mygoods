@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@leisurethat_high?TNS_ADMIN=./src/main/resources/wallet
+    url: jdbc:oracle:thin:@leisurethat_low?TNS_ADMIN=./src/main/resources/wallet
     username: mygoods
     password: OracleOracle123
   servlet:
@@ -17,5 +17,3 @@ mybatis:
   type-aliases-package: com.hoiae.mygoods
   configuration:
     map-underscore-to-camel-case: true
-
-

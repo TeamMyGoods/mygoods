@@ -110,7 +110,8 @@
                                     <img src="https://upload.wikimedia.org/wikipedia/ko/b/b6/IU_Palette_final.jpg"
                                          class="card-img-top" alt="...">
                                     <div class="card-body text-dark text-left">
-                                        <h5 class="card-title" style="margin-bottom:10px" id="orderName" value="1">IU goods</h5>
+                                        <h5 class="card-title" style="margin-bottom:10px" id="orderName">IU goods</h5>
+                                        <h5 hidden id="productCode">1</h5>
                                         <p class="card-text" id="amount">100원</p>
                                         <div style="display: flex; flex-direction: row; justify-content: space-between; text-align: center">
                                             <p style="margin-bottom: 0; vertical-align: center">사이즈 :</p>
@@ -135,18 +136,16 @@
 
         <script>
 
-            function insertOrder(orderCode, orderSize, amount, date, memberCode, productCode) {
+            function insertOrder(orderCode, orderSize, amount, productCode) {
                 var body = {
                     // "access_token": "CBDNUCRV61AOGLK",
                     orderCode : orderCode,
                     orderSize : orderSize,
                     amount : amount,
-                    date : new Date(),
-                    memberCode : memberCode,
                     productCode : productCode
                 };
                 $.ajax({
-                    url: 'http://localhost:8080/payment/order',
+                    url: '/payment/order',
                     contentType: "application/json; charset=utf-8",
                     cache: false,
                     type: 'POST',
@@ -182,14 +181,14 @@
             amount = parseInt(amount.replace(',', ''));
             let button = document.getElementById('payment-button') // 결제하기 버튼
             let orderId = generateRandomString(40);
-            let productCode = document.getElementById('orderName').value;
+            let productCode = document.getElementById('productCode').textContent;
 
 
             button.addEventListener('click', function () {
                 console.log(amount);
                 console.log(orderId);
                 console.log(orderName);
-                insertOrder(orderId, orderSize, amount, new Date(), 12, productCode);
+                insertOrder(orderId, orderSize, amount, productCode);
 
                 tossPayments.requestPayment('카드', {
                     amount: amount,
