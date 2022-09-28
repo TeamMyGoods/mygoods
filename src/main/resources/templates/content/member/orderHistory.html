@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>주문내역</title>
+    <link href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            padding-top: 20px;
+            padding-bottom: 40px;
+            background-color: #212529;
+            color: white;
+        }
+    </style>
+
+</head>
+<body>
+    <main class="m-auto">
+    <h1>주문내역</h1>
+    <table class="table table-dark table-striped table-hover">
+        <thead>
+            <tr>
+                <th>주문코드</th>
+                <th>주문일</th>
+                <th>상품명</th>
+                <th>상품이미지</th>
+                <th>상품사이즈</th>
+                <th>결제금액</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="order:${ orderList }">
+                <td th:text="${order.orderCode}">주문코드</td>
+                <td  th:text="${#dates.format(order.orderDate, 'yyyy-MM-dd HH:mm:ss')}">주문일</td>
+                <td th:text="${order.productName}">상품명</td>
+                <td><img th:src="${order.productImageUrl}" alt="dd" width="50px" height="50px"/></td>
+                <td th:text="${order.productSize}">상품사이즈</td>
+                <td th:text="${order.orderAmount+'원'}">금액</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    </main>
+</body>
+</html>

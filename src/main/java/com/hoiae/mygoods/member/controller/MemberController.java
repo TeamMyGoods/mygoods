@@ -5,19 +5,27 @@ import com.hoiae.mygoods.common.exception.member.MemberModifyException;
 import com.hoiae.mygoods.common.exception.member.MemberRegistException;
 import com.hoiae.mygoods.common.exception.member.MemberRemoveException;
 import com.hoiae.mygoods.common.util.SessionUtil;
+import com.hoiae.mygoods.member.dto.FindOrderDTO;
 import com.hoiae.mygoods.member.dto.MemberDTO;
+import com.hoiae.mygoods.member.dto.OrderHistoryDTO;
 import com.hoiae.mygoods.member.service.MemberService;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 @Controller
@@ -93,7 +101,6 @@ public class MemberController {
     public String modifyMember(@ModelAttribute MemberDTO member, HttpServletRequest request, HttpServletResponse response,
                                RedirectAttributes rttr) throws MemberModifyException {
 
-
         String address = request.getParameter("zipCode") + "$" + request.getParameter("address1") + "$" + request.getParameter("address2");
         member.setPhone(member.getPhone().replace("-", ""));
         member.setMemberPwd(passwordEncoder.encode(member.getMemberPwd()));
@@ -127,7 +134,75 @@ public class MemberController {
 
     /*마이페이지*/
     @GetMapping("/mypage")
-    public String goMypage(){
+    public String goMypage(Model model){
+        /*20220927로그인정보 가져오기 테스트*/
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)principal;
+
+        String username = ((UserDetails) principal).getUsername();
+        String password = ((UserDetails) principal).getPassword();
+
+        System.out.println("username :" + username);
+        System.out.println("password :" + password);
+
+
+
+        int memberNo = selectMemberNoById();
+        System.out.println("findOrder:"+memberNo);
+
+        List<OrderHistoryDTO> orderList = memberService.findOrderList(memberNo);
+        orderList.forEach(System.out::println);
+        model.addAttribute("orderList", orderList );
+
+        //username을 통해서 사용자 아이디를 가져올수 있음.
+        /*20220927로그인정보 가져오기 테스트*/
         return "content/member/mypage";
+    }
+
+//    @GetMapping("/orderHistory")
+//    public ModelAndView goOrderHistory(ModelAndView mv) {
+//
+//        /*주문코드, 상품이름, 상품사이즈, 상품가격,*/
+//        mv.addObject("testparam", "testparam" );
+//        mv.setViewName("/content/member/orderHistory");
+//        return mv;
+//    }
+//    @GetMapping("/orderHistory")
+//    public ModelAndView findOrder(ModelAndView mv){
+//        int memberNo = selectMemberNoById();
+//        System.out.println("findOrder:"+memberNo);
+//
+//        List<FindOrderDTO> orderList = memberService.findOrderList(memberNo);
+//        orderList.forEach(System.out::println);
+//        mv.addObject("orderList", orderList );
+//        mv.setViewName("content/member/orderHistory");
+//        return mv;
+//    }
+
+    @GetMapping("/orderHistory")
+    public ModelAndView findOrder(ModelAndView mv){
+
+        int memberNo = selectMemberNoById();
+        System.out.println("findOrder:"+memberNo);
+
+        List<OrderHistoryDTO> orderList = memberService.findOrderList(memberNo);
+        orderList.forEach(System.out::println);
+        mv.addObject("orderList", orderList );
+        mv.setViewName("content/member/orderHistory");
+        return mv;
+    }
+
+    /*MEMBER_NO가져오기*/
+    public int selectMemberNoById(){
+        /*20220927로그인정보 가져오기 테스트*/
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)principal;
+        String username = ((UserDetails) principal).getUsername();
+        System.out.println("username :" + username);
+        //username을 통해서 사용자 아이디를 가져올수 있음.
+        /*20220927로그인정보 가져오기 테스트*/
+        int result = memberService.selectMemberNoById(username);
+        System.out.println("memberNo :"+result);
+        return result;
     }
 }

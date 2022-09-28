@@ -4,12 +4,16 @@ import com.hoiae.mygoods.common.exception.member.MemberModifyException;
 import com.hoiae.mygoods.common.exception.member.MemberRegistException;
 import com.hoiae.mygoods.common.exception.member.MemberRemoveException;
 import com.hoiae.mygoods.member.dao.MemberMapper;
+import com.hoiae.mygoods.member.dto.FindOrderDTO;
 import com.hoiae.mygoods.member.dto.MemberDTO;
+import com.hoiae.mygoods.member.dto.OrderHistoryDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class MemberService {
@@ -61,4 +65,16 @@ public class MemberService {
             }
         }
 
+        public List<OrderHistoryDTO> findOrderList(int memberNo) {
+
+            List<OrderHistoryDTO> orderList = mapper.findOrderList(memberNo);
+
+            return orderList;
+//        return result != null? true : false;
+    }
+
+    public int selectMemberNoById(String username) {
+
+        return mapper.selectMemberNoById(username);
+    }
 }
