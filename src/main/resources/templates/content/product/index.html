@@ -37,6 +37,20 @@
                 </div>
 
 
+                <select class="form-control" id="categorySelect">
+                    <option value="1번모델">1번모델</option>
+                    <option value="2번모델">2번모델</option>
+                    <option value="3번모델">3번모델</option>
+                    <option value="4번모델">4번모델</option>
+                </select>
+
+                <select class="form-control" id="modelSelect">
+                    <option value="1">티셔츠</option>
+                    <option value="2">접시</option>
+                    <option value="3">에코백</option>
+                </select>
+
+
             </div>
         </div>
 
@@ -63,12 +77,14 @@
                 </div>
             </div>
         </div>
-<!--        <div id="productListBox" class="card" style="display: flex; flex-direction:row; flex-wrap:wrap;"></div>-->
 
-        <form id="uploadForm" method="post" action="/product/upload" enctype="multipart/form-data">
-            <!--            　　<input type="file" id= "imageInput" name="imageInput" multiple="multiple" accept=".png, .jpg, .jpeg">-->
-            <button class="btn btn-danger" onclick="upload()" type="button" id="uploadBtn">업로드</button>
-        </form>
+
+        <button class="btn btn-danger" onclick="characterUpload()" type="button" id="characterUploadBtn">캐릭터 생성하기</button>
+            <button class="btn btn-danger" onclick="upload()" type="button" id="uploadBtn">굿즈 제작하기</button>
+
+
+
+
 
         <div class="album bg-light">
             <div class="container">
@@ -212,6 +228,158 @@
     <script src="/js/jquery-Jcrop-min.js"></script>
     <script src="/js/bootstrap-min.js"></script>
 
+
+
+
+    <script>
+        function upload() {
+            const imageInput = $("#imageInput")[0];
+            // 파일을 여러개 선택할 수 있으므로 files 라는 객체에 담긴다.
+            console.log("imageInput: ", imageInput.files)
+
+            if (imageInput.files.length === 0) {
+                alert("파일은 선택해주세요");
+                return;
+            }
+
+
+            const formData = new FormData();
+
+            console.log("formdata : ", formData);
+
+
+            console.log(imageInput.files[0]);
+
+
+            let categoryCode = $("#categorySelect option:selected").val();
+            let modelName = $("#modelSelect option:selected").val();
+
+            console.log("선택된 카테고리 코드 : "  + categoryCode);
+            console.log("선택된 모델 코드 : "  + categoryCode);
+
+            formData.append("image", imageInput.files[0]);
+            formData.append("categoryCode",categoryCode);
+            formData.append("modelName",modelName);
+
+
+            for (let key of formData.keys()) {
+                console.log("key : ", key);
+            }
+            for (let value of formData.values()) {
+                console.log("value : ", value);
+            }
+
+
+            $.ajax({
+                type: "POST",
+                entryType: "multipart/form-data",
+                url: "/product/upload",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (rawData) {
+                    const results = JSON.parse(rawData);
+                    console.log(results.result);
+                    console.log(results.img);
+                    // $("#productListBox").append("<img src='" + "data:image/jpg;base64," + result.img + "'>");
+
+
+                    let cardStyleElements = " <div class=\"col py-3\">\n" +
+                        "                        <div class=\"card shadow-sm\">\n" +
+                        "                            <img class='img-fluid' src='" + "data:image/jpg;base64," + results.img + "'>\n" +
+                        "                            <div class=\"card-body\">\n" +
+                        "                                <p style=\"color:black\">상품설명이라고 볼 수 있겠네요</p>\n" +
+                        "                                <div class=\"d-flex justify-content-between align-items-center\">\n" +
+                        "                                    <div class=\"btn-group\">\n" +
+                        "                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" id=\"payFor\" data-toggle=\"modal\" data-target=\"#modalPayment\">구매</button>\n" +
+                        "                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">저장</button>\n" +
+                        "                                    </div>\n" +
+                        "                                    <small class=\"text-muted\">10,000 원</small>\n" +
+                        "                                </div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                    </div>"
+
+                    $("#productListBox").append(cardStyleElements);
+                    $("#createdImg").show();
+
+
+                },
+                err: function (err) {
+                    console.log("err:", err)
+                }
+            })
+
+        }
+
+    </script>
+
+<!-- ===========================================캐릭터 생성 스크립트=====================================-->
+
+
+    <script>
+        function characterUpload() {
+            const imageInput = $("#imageInput")[0];
+            // 파일을 여러개 선택할 수 있으므로 files 라는 객체에 담긴다.
+            console.log("imageInput: ", imageInput.files)
+
+            if (imageInput.files.length === 0) {
+                alert("파일은 선택해주세요");
+                return;
+            }
+
+
+            const formData = new FormData();
+
+            console.log("formdata : ", formData);
+
+
+            console.log(imageInput.files[0]);
+
+
+            formData.append("image", imageInput.files[0]);
+
+
+
+            for (let key of formData.keys()) {
+                console.log("key : ", key);
+            }
+            for (let value of formData.values()) {
+                console.log("value : ", value);
+            }
+
+
+
+            $.ajax({
+                type: "POST",
+                entryType: "multipart/form-data",
+                url: "/product/character",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (rawData) {
+                    const results = JSON.parse(rawData);
+                    console.log(results.result);
+                    console.log(results.img);
+
+
+                    $("#createdImg").attr("src","data:image/jpg;base64," + results.img);
+                    $("#createdImg").show();
+
+
+                },
+                err: function (err) {
+                    console.log("err:", err)
+                }
+            })
+
+        }
+    </script>
+
+
+
+
+    <!--================================ jcrop==============================-->
     <script>
         $(document).ready(function () {
             var _URL = window.URL || window.webkitURL;
@@ -362,83 +530,6 @@
             }
         });
 
-    </script>
-
-
-    <script>
-        function upload() {
-            const imageInput = $("#imageInput")[0];
-            // 파일을 여러개 선택할 수 있으므로 files 라는 객체에 담긴다.
-            console.log("imageInput: ", imageInput.files)
-
-            if (imageInput.files.length === 0) {
-                alert("파일은 선택해주세요");
-                return;
-            }
-
-
-            const formData = new FormData();
-
-            console.log("formdata : ", formData);
-
-
-            console.log(imageInput.files[0]);
-            let no = 1;
-            formData.append("image", imageInput.files[0]);
-
-
-            for (let key of formData.keys()) {
-                console.log("key : ", key);
-            }
-            for (let value of formData.values()) {
-                console.log("value : ", value);
-            }
-
-
-
-
-            $.ajax({
-                type: "POST",
-                entryType: "multipart/form-data",
-                url: "/product/upload",
-                processData: false,
-                contentType: false,
-                data: formdata,
-                success: function (rawData) {
-                    const results = JSON.parse(rawData);
-                    console.log(results.result);
-                    // $("#productListBox").append("<img src='" + "data:image/jpg;base64," + result.img + "'>");
-
-
-                    let cardStyleElements = " <div class=\"col py-3\">\n" +
-                        "                        <div class=\"card shadow-sm\">\n" +
-                        "                            <img src='" + "data:image/jpg;base64," + results.img + "'>\n" +
-                        "                            <div class=\"card-body\">\n" +
-                        "                                <p style=\"color:black\">상품설명이라고 볼 수 있겠네요</p>\n" +
-                        "                                <div class=\"d-flex justify-content-between align-items-center\">\n" +
-                        "                                    <div class=\"btn-group\">\n" +
-                        "                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" id=\"payFor\" data-toggle=\"modal\" data-target=\"#modalPayment\">구매</button>\n" +
-                        "                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\">저장</button>\n" +
-                        "                                    </div>\n" +
-                        "                                    <small class=\"text-muted\">10,000 원</small>\n" +
-                        "                                </div>\n" +
-                        "                            </div>\n" +
-                        "                        </div>\n" +
-                        "                    </div>"
-
-                    $("#createdImg").show();
-
-                    for (let i = 0; i < 6; i++) {
-                        $("#productListBox").append(cardStyleElements);
-                    }
-
-                },
-                err: function (err) {
-                    console.log("err:", err)
-                }
-            })
-
-        }
     </script>
 
 </div>
