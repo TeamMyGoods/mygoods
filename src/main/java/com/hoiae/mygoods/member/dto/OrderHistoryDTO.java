@@ -19,16 +19,18 @@ public class OrderHistoryDTO {
     private int orderAmount;
     private String productSize;
 
+    private String address;
     private String productName;
     private String productImageUrl;
 
     public OrderHistoryDTO() {}
 
-    public OrderHistoryDTO(String orderCode, Date orderDate, int orderAmount, String productSize, String productName, String productImageUrl) {
+    public OrderHistoryDTO(String orderCode, Date orderDate, int orderAmount, String productSize, String address, String productName, String productImageUrl) {
         this.orderCode = orderCode;
         this.orderDate = orderDate;
         this.orderAmount = orderAmount;
         this.productSize = productSize;
+        this.address = address;
         this.productName = productName;
         this.productImageUrl = productImageUrl;
     }
@@ -65,6 +67,14 @@ public class OrderHistoryDTO {
         this.productSize = productSize;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getProductName() {
         return productName;
     }
@@ -88,6 +98,7 @@ public class OrderHistoryDTO {
                 ", orderDate=" + orderDate +
                 ", orderAmount=" + orderAmount +
                 ", productSize='" + productSize + '\'' +
+                ", address='" + address + '\'' +
                 ", productName='" + productName + '\'' +
                 ", productImageUrl='" + productImageUrl + '\'' +
                 '}';

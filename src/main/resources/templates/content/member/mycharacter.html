@@ -3,7 +3,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 <head>
-<head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
@@ -19,17 +18,31 @@
   </style>
 </head>
 <body>
-    <main class="m-auto">
+
         <h1>나의 캐릭터</h1>
-        <div style="display: flex; flex-direction: row;" th:each="character:${ characterList }">
+        <main class="justify-content-center ms-3">
+        <div th:each="character:${ characterList }">
 
             <div th:if="${character == null}"> 조회된 데이터가 없습니다.></div>
-            <span  th:if="${character != null}">
+            <div style="float:left; margin-bottom: 8px" th:if="${character != null}">
 <!--                <img th:src="${character.characterImageURL}" alt="dd" width="300px" height="300px"/>-->
-                <img th:src="'/change/'+${character.characterImageURL}" alt="dd" width="300px" height="300px"/>
+<!--                <img th:src="'/change/'+${character.characterImageURL}" alt="dd" width="300px" height="300px" />-->
 <!--                <div th:text="${character.characterImageURL}"></div>-->
 <!--                <div th:text="'D:/mygoods/src/main/resources/upload/change/'+${character.characterImageURL}"></div>-->
-            </span>
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="card" style="width: 18rem;">
+                                <img th:src="'/change/'+${character.characterImageURL}" alt="img" width="300px" height="300px" class="card-img-top rounded float-start" style="margin: 5px;">
+<!--                                <div class="card-body">-->
+<!--                                    <p class="card-text text-white"></p>-->
+<!--                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 <!--        <table class="table table-dark table-striped table-hover">-->
