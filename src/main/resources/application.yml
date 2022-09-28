@@ -37,5 +37,3 @@ mybatis:
   type-aliases-package: com.hoiae.mygoods
   configuration:
     map-underscore-to-camel-case: true
-
-

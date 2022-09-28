@@ -72,6 +72,20 @@
 		  AND  A.MEMBER_ID = #{ memberId }
 	</select>
 
+    <select id="findAllMember" resultType="MemberDTO">
+        SELECT
+            A.MEMBER_NO
+             , A.MEMBER_ID
+             , A.NICKNAME
+             , A.PHONE
+             , A.EMAIL
+             , A.MEMBER_ROLE
+             , A.MEMBER_STATUS
+        FROM  TBL_MEMBER A
+        WHERE  A.MEMBER_STATUS = 'Y'
+        ORDER BY A.MEMBER_ID
+    </select>
+
     <update id="updateMember">
         UPDATE /* com.ohgiraffers.thymeleafspringboot.member.dao.MemberMapper#updateMember() */
               TBL_MEMBER A

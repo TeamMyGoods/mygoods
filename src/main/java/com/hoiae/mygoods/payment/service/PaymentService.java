@@ -5,9 +5,14 @@ import com.hoiae.mygoods.common.exception.payment.OrderException;
 import com.hoiae.mygoods.common.exception.payment.PaymentException;
 import com.hoiae.mygoods.common.exception.payment.PriceNotEqualException;
 import com.hoiae.mygoods.payment.dao.PaymentMapper;
+import com.hoiae.mygoods.payment.dto.ModelDTO;
 import com.hoiae.mygoods.payment.dto.OrderDTO;
+import com.hoiae.mygoods.payment.dto.PaymentDTO;
+import com.hoiae.mygoods.payment.dto.WeekDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @Service
 public class PaymentService {
@@ -62,9 +67,9 @@ public class PaymentService {
 //        }
 //    }
 
-    public int insertPayment(String paymentKey, String orderId, Long amount, String productName, String productSize) throws PaymentException {
+    public int insertPayment(PaymentDTO payment) throws PaymentException {
 
-        int result = mapper.insertPaymentInfo(paymentKey, orderId);
+        int result = mapper.insertPaymentInfo(payment);
 
         if(!(result > 0 )){
             throw new PaymentException("결제에 실패하셨습니다.");
@@ -82,5 +87,18 @@ public class PaymentService {
         }
 
         return result;
+    }
+
+    public String selectUserByUserName(String username) {
+
+        return mapper.selectUserByUserName(username);
+    }
+
+    public List<WeekDTO> selectOrderCount() {
+        return mapper.selectOrderCount();
+    }
+
+    public List<ModelDTO> selectModelCount() {
+        return mapper.selectModelCount();
     }
 }

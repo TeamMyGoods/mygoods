@@ -3,6 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hoiae.mygoods.payment.dao.PaymentMapper">
+    
+    <resultMap id="weekResultMap" type="com.hoiae.mygoods.payment.dto.WeekDTO">
+        <result property="weekDay" column="WEEKDAY"/>
+        <result property="weekCount" column="WEEKCOUNT"/>
+    </resultMap>
+
+    <resultMap id="modelResultMap" type="com.hoiae.mygoods.payment.dto.ModelDTO">
+        <result property="modelName" column="NAME"/>
+        <result property="count" column="MODELCOUNT"/>
+    </resultMap>
 
     <insert id="insertPaymentInfo" parameterType="PaymentDTO">
         INSERT
@@ -15,11 +25,59 @@
             )
         VALUES
             (
-                  #{paymentKey}
-                , "SUCCESS"
-                , #{orderId}
-                , "N"
+              #{paymentKey}
+            , "SUCCESS"
+            , #{orderId}
+            , "N"
             )
     </insert>
+
+    <insert id="insertOrder" parameterType="OrderDTO">
+        INSERT
+        INTO TBL_PRODUCT_ORDER A
+        (
+            A.ORDER_CODE
+          , A.ORDER_AMOUNT
+          , A.ORDER_DATE
+          , A.MEMBER_NO
+          , A.PRODUCT_SIZE
+          , A.PRODUCT_CODE
+        )
+        VALUES
+            (
+                #{orderCode}
+              , #{totalPrice}
+              , #{orderDate}
+              , #{memberCode}
+              , #{size}
+              , #{productCode}
+            )
+    </insert>
+
+    <select id="selectUserByUserName" resultType="string">
+        SELECT
+               A.MEMBER_NO
+        FROM TBL_MEMBER A
+        WHERE A.MEMBER_STATUS = 'Y'
+          AND A.MEMBER_ID = #{username}
+    </select>
+
+    <select id="selectOrderCount" resultMap="weekResultMap">
+        SELECT
+            TO_CHAR(A.ORDER_DATE, 'DAY') as WEEKDAY,
+            COUNT(A.ORDER_CODE) as WEEKCOUNT
+        FROM TBL_PRODUCT_ORDER A
+        GROUP BY TO_CHAR(A.ORDER_DATE, 'DAY')
+        ORDER BY WEEKDAY DESC
+    </select>
+
+    <select id="selectModelCount" resultMap="modelResultMap">
+        SELECT
+            TO_CHAR(A.MODEL_NAME) as NAME,
+            COUNT(A.CHARACTER_CODE) as MODELCOUNT
+        FROM TBL_CHARACTER A
+        GROUP BY TO_CHAR(A.MODEL_NAME)
+        ORDER BY NAME DESC
+    </select>
 
 </mapper>
