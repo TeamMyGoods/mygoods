@@ -10,15 +10,20 @@ public class OrderDTO {
     private int memberCode;
     private int productCode;
 
+    private String zipCode;
+    private String address;
+
     public OrderDTO () {}
 
-    public OrderDTO(String orderCode, String size, int totalPrice, Date orderDate, int memberCode, int productCode) {
+    public OrderDTO(String orderCode, String size, int totalPrice, Date orderDate, int memberCode, int productCode, String zipCode, String address) {
         this.orderCode = orderCode;
         this.size = size;
         this.totalPrice = totalPrice;
         this.orderDate = orderDate;
         this.memberCode = memberCode;
         this.productCode = productCode;
+        this.zipCode = zipCode;
+        this.address = address;
     }
 
     public String getOrderCode() {
@@ -69,6 +74,22 @@ public class OrderDTO {
         this.productCode = productCode;
     }
 
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "OrderDTO{" +
@@ -78,6 +99,8 @@ public class OrderDTO {
                 ", orderDate=" + orderDate +
                 ", memberCode=" + memberCode +
                 ", productCode=" + productCode +
+                ", zipCode='" + zipCode + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

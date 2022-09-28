@@ -163,7 +163,7 @@ public class ProductController {
     @ResponseBody
     @PostMapping("/upload")
     public String uploadImage(@RequestParam("image") MultipartFile userImage,
-                              @RequestParam("categoryCode") String categoryCode,
+                              @RequestParam("categoryName") String categoryCode,
                               @RequestParam("modelName") String modelName,
                               HttpServletRequest request
     ) throws IOException, ParseException {

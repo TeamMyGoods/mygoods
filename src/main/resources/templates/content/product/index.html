@@ -99,13 +99,6 @@
             </div>
         </div>
 
-
-
-
-
-
-
-
         <div class="album bg-light">
             <div class="container">
 
@@ -129,13 +122,13 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modalPayment" tabindex="-1" aria-labelledby="modalPaymentLabel" aria-hidden="true">
+        <div class="modal fade" id="modalPayment" tabindex="-1" aria-labelledby="modalPaymentLabel" aria-hidden="true" style="text-shadow: 0 .0rem .0rem #000000;">
             <!--        <div class="modal fade modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog" id="modalPayment">-->
             <div class="modal-dialog">
                 <div class="modal-content rounded-4 shadow">
                     <div class="modal-header p-5 pb-4 border-bottom-0">
                         <!-- <h5 class="modal-title">Modal title</h5> -->
-                        <h2 class="fw-bold mb-0 text-dark" id="modalPaymentLabel" style="margin-left:6rem">결제 정보 확인</h2>
+                        <h2 class="fw-bold mb-0 text-dark" id="modalPaymentLabel" style="margin-left:6rem">주문 정보 확인</h2>
                         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" style="margin-left:0"></button>
                     </div>
 
@@ -143,20 +136,57 @@
                         <form class="" style="display: flex; flex-direction: column; justify-content: center">
                             <div class="form-floating mb-3" style="display: flex; justify-content: center">
                                 <div class="card">
-                                    <img src="https://upload.wikimedia.org/wikipedia/ko/b/b6/IU_Palette_final.jpg"
+                                    <img src="https://upload.wikimedia.org/wikipedia/ko/b/b6/IU_Palette_final.jpg" id="productImg"
                                          class="card-img-top" alt="...">
                                     <div class="card-body text-dark text-left">
-                                        <h5 class="card-title" style="margin-bottom:10px" id="orderName">IU goods</h5>
-                                        <h5 hidden id="productCode">1</h5>
-                                        <p class="card-text" id="amount">100원</p>
-                                        <div style="display: flex; flex-direction: row; justify-content: space-between; text-align: center">
-                                            <p style="margin-bottom: 0; vertical-align: center">사이즈 :</p>
-                                            <select class="form-select" aria-label="Default select example" id="size" style="max-width:150px; margin-top:0.5rem">
-                                                <option selected value="S">S</option>
-                                                <option value="M">M</option>
-                                                <option value="L">L</option>
-                                                <option value="XL">XL</option>
-                                            </select>
+<!--                                        <h5 class="card-title" style="margin-bottom:10px" id="orderName">IU goods</h5>-->
+<!--                                        <h5 hidden id="productCode">1</h5>-->
+<!--                                        <p class="card-text" id="amount">100원</p>-->
+<!--                                        <div style="display: flex; flex-direction: row; justify-content: space-between; text-align: center">-->
+<!--                                            <p style="margin-bottom: 0; vertical-align: center">사이즈 :</p>-->
+<!--                                            <select class="form-select" aria-label="Default select example" id="size" style="max-width:150px; margin-top:0.5rem">-->
+<!--                                                <option selected value="S">S</option>-->
+<!--                                                <option value="M">M</option>-->
+<!--                                                <option value="L">L</option>-->
+<!--                                                <option value="XL">XL</option>-->
+<!--                                            </select>-->
+<!--                                        </div>-->
+                                        <div>
+                                            <table style="color:black">
+                                                <tr>
+                                                    <td id="orderName">IU GOODS</td>
+                                                    <td hidden id="productCode">43</td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="amount">200원</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>사이즈</td>
+                                                    <td>
+                                                        <select class="form-select" aria-label="Default select example" id="size" style="max-width:150px; margin-top:0.5rem">
+                                                            <option selected value="S">S</option>
+                                                            <option value="M">M</option>
+                                                            <option value="L">L</option>
+                                                            <option value="XL">XL</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>우편번호</td>
+                                                    <td><input class="input-group-text" type="text" name="zipCode" id="zipCode" readonly></td>
+                                                    <td><input type="button" value="검색" class="btn btn-primary" id="searchZipCode"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>주소</td>
+                                                    <td><input class="input-group-text" type="text" name="address1" id="address1" readonly></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>상세주소</td>
+                                                    <td><input class="input-group-text" type="text" name="address2" id="address2"></td>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -170,15 +200,45 @@
             </div>
         </div>
 
+        <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script th:inline="javascript">
+
+            const $searchZipCode = document.getElementById("searchZipCode");
+            const $goMain = document.getElementById("goMain");
+
+            $searchZipCode.onclick = function() {
+
+                /* 다음 우편번호 검색 창을 오픈하면서 동작할 콜백 메소드를 포함한 객체를 매개변수로 전달한다. */
+                new daum.Postcode({
+                    oncomplete: function(data){
+                        /* 팝업에서 검색결과 항목을 클릭했을 시 실행할 코드를 작성하는 부분 */
+                        document.getElementById("zipCode").value = data.zonecode;
+                        document.getElementById("address1").value = data.address;
+                        document.getElementById("address2").focus();
+                    }
+                }).open();
+            }
+
+            $goMain.onclick = function() {
+                location.href = "/";
+            }
+
+        </script>
+
         <script>
 
-            function insertOrder(orderCode, orderSize, amount, productCode) {
+            function insertOrder(orderCode, orderSize, amount, productCode, zipCode, address) {
+                console.log("test");
+                console.log(zipCode);
+                console.log(address);
                 var body = {
                     // "access_token": "CBDNUCRV61AOGLK",
                     orderCode : orderCode,
                     orderSize : orderSize,
                     amount : amount,
-                    productCode : productCode
+                    productCode : productCode,
+                    zipCode : zipCode,
+                    address : address
                 };
                 $.ajax({
                     url: '/payment/order',
@@ -187,17 +247,28 @@
                     type: 'POST',
                     processData: false,
                     dataType: 'json',
-                    data: JSON.stringify(body)
-                }).success(function (result) {
-                    debugger;
-                    if (result.Success) {
-
+                    data: JSON.stringify(body),
+                    success : function (result) {
+                        // debugger;
+                        console.log("주문에 성공하셨습니다!")
+                    },
+                    fail : function (result) {
+                        // debugger;
+                        // console.log("Fail:" + result);
+                        console.log("주문에 실패했습니다.");
                     }
-                }).fail(function (result) {
-                    debugger;
-                    console.log("Fail:" + result);
-                });
-            }
+
+                // }).success(function (result) {
+                //     // debugger;
+                //     if (result.Success) {
+                //         console.log("주문에 성공하셨습니다!")
+                //     }
+                // }).fail(function (result) {
+                //     // debugger;
+                //     // console.log("Fail:" + result);
+                //     console.log("주문에 실패했습니다.");
+                // });
+            })}
 
             const generateRandomString = (num) => {
                 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -211,20 +282,28 @@
 
             let clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'
             let tossPayments = TossPayments(clientKey)
-            let orderName = document.getElementById('orderName').textContent.toString() + '/' + document.getElementById('size').value.toString();
-            let orderSize = document.getElementById('size').value.toString();
-            let amount = document.getElementById('amount').textContent.toString().replace('원', '')
-            amount = parseInt(amount.replace(',', ''));
             let button = document.getElementById('payment-button') // 결제하기 버튼
-            let orderId = generateRandomString(40);
-            let productCode = document.getElementById('productCode').textContent;
 
 
             button.addEventListener('click', function () {
+
+                let address = document.getElementById("address1").value.toString() + document.getElementById("address2").value.toString();
+                let zipCode = document.getElementById("zipCode").value.toString();
+                let orderName = document.getElementById('orderName').textContent.toString() + '/' + document.getElementById('size').value.toString();
+                let orderSize = document.getElementById('size').value.toString();
+                let amount = document.getElementById('amount').textContent.toString().replace('원', '')
+                amount = parseInt(amount.replace(',', ''));
+                let orderId = generateRandomString(40);
+                let productCode = document.getElementById('productCode').textContent;
+
+                console.log("test inner");
+                console.log(zipCode);
+                console.log(address);
                 console.log(amount);
                 console.log(orderId);
                 console.log(orderName);
-                insertOrder(orderId, orderSize, amount, productCode);
+
+                insertOrder(orderId, orderSize, amount, productCode, zipCode, address);
 
                 tossPayments.requestPayment('카드', {
                     amount: amount,
@@ -301,7 +380,7 @@
                     console.log(results.result);
                     console.log(results.img);
                     // $("#productListBox").append("<img src='" + "data:image/jpg;base64," + result.img + "'>");
-
+                    document.getElementById('productImg').src="data:image/jpg;base64," + results.img;
 
                     let cardStyleElements = " <div class=\"col py-3\">\n" +
                         "                        <div class=\"card shadow-sm\">\n" +

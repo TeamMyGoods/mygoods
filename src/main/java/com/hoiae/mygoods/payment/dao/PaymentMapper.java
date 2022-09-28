@@ -20,4 +20,6 @@ public interface PaymentMapper {
     List<WeekDTO> selectOrderCount();
 
     List<ModelDTO> selectModelCount();
+
+    String selectPriceByOrderId(String orderId);
 }

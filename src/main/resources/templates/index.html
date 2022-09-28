@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" th:src="@{/js/event.js}"></script>
     <title>mygoods</title>
+    <style>
+        html{
+            padding : 0;
+        }
+    </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
@@ -12,12 +17,95 @@
 
 </head>
 <body class="d-flex h-100 text-center text-bg-dark">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        <header th:replace="common/header::header('index')"></header>
-        <main class="px-3">
-            <h1>mygoods Project</h1>
+    <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
+        <div style="margin-top: 30px;">
+            <header th:replace="common/header::header('index')"></header>
+        </div>
+        <main style="height:fit-content">
+            <div class="container-fluid" style="margin-top: 100px;">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xxl-6">
+                        <div class="text-center my-5">
+                            <h1 class="fw-bolder mb-5">My Goods</h1>
+                            <h4 class="lead fw-normal text-muted mb-4">당신의 일상을 바꿔줄 새로운 선택</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="py-5" id="scroll-target">
+                <div class="container px-5 my-5">
+                    <div class="row gx-5 align-items-center">
+                        <div class="col-lg-6"><img class="img-fluid rounded mb-5 mb-lg-0" src="/image/Logo.png" alt="..." /></div>
+                        <div class="col-lg-6">
+                            <h2 class="fw-bolder mb-4">간직하다</h2>
+                            <p class="lead fw-normal text-muted mb-0">MyGoods는 여러분의 소중한 추억을 간직합니다. 간편하게 추억을 간직하세요. 힘들고 지치는 순간에도, 기쁘고 환희 가득한 순간에도. My Goods는 여러분의 시간을 간직하기 위해 항상 그자리에 있습니다. </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- About section two-->
+            <section class="py-5">
+                <div class="container px-5 my-5">
+                    <div class="row gx-5 align-items-center">
+                        <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0" src="/image/LogoBox.png" alt="..." /></div>
+                        <div class="col-lg-6">
+                            <h2 class="fw-bolder mb-4">함께하다</h2>
+                            <p class="lead fw-normal text-muted mb-0">MyGoods는 여러분의 일상과 함께 합니다. 언제 어디서나 My Goods를 만나보세요. 소중한 사람과 함께 할 수 있다는 것은 그 어디에서도 살 수 없는 가치입니다. 그 순간을 놓치지 않도록, My Goods가 함께합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+<!--            <div class="py-5 bg-dark">-->
+<!--                <div class="container px-5 my-5">-->
+<!--                    <div class="row gx-5 justify-content-center">-->
+<!--                        <div class="col-lg-10 col-xl-7 mb-5">-->
+<!--                            <div class="text-center">-->
+<!--                                <div class="fs-4 mb-4 fst-italic">사진 한 장으로 손 쉽게 추억을 남길 수 있어요!</div>-->
+<!--                                <div class="d-flex align-items-center justify-content-center">-->
+<!--                                    <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />-->
+<!--                                    <div class="fw-bold">-->
+<!--                                        이용자 Hoiae-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-10 col-xl-7 mb-5">-->
+<!--                            <div class="text-center">-->
+<!--                                <div class="fs-4 mb-4 fst-italic">사진 한 장으로 손 쉽게 추억을 남길 수 있어요!</div>-->
+<!--                                <div class="d-flex align-items-center justify-content-center">-->
+<!--                                    <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />-->
+<!--                                    <div class="fw-bold">-->
+<!--                                        이용자 Hoiae-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-10 col-xl-7 mb-5">-->
+<!--                            <div class="text-center">-->
+<!--                                <div class="fs-4 mb-4 fst-italic">사진 한 장으로 손 쉽게 추억을 남길 수 있어요!</div>-->
+<!--                                <div class="d-flex align-items-center justify-content-center">-->
+<!--                                    <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />-->
+<!--                                    <div class="fw-bold">-->
+<!--                                        이용자 Hoiae-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="container-fluid d-sm-flex justify-content-sm-center">
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+                    <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/product">시작하기</a>
+                    <a class="btn btn-outline-light btn-lg px-4" href="/member/regist">회원가입</a>
+                </div>
+            </div>
         </main>
-        <footer th:replace="common/footer::footer"></footer>
+        <div>
+            <footer th:replace="common/footer::footer"></footer>
+        </div>
     </div>
+    <script src="/docs/5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
 </body>
 </html>
