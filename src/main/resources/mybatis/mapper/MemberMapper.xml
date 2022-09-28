@@ -4,6 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hoiae.mygoods.member.dao.MemberMapper">
 
+<!--    <resultMap id="orderHistoryResultMap" type="FindOrderDTO">-->
+<!--        <id property="orderCode" column="ORDER_CODE"/>-->
+<!--        <result property="orderAmount" column="ORDER_AMOUNT"/>-->
+<!--        <result property="orderDate" column="ORDER_DATE"/>-->
+<!--        <result property="productSize" column="PRODUCT_SIZE"/>-->
+<!--        <result property="productCode" column="PRODUCT_CODE"/>-->
+<!--    </resultMap>-->
+
+    <resultMap id="orderHistoryResultMap" type="OrderHistoryDTO">
+        <id property="orderCode" column="ORDER_CODE"/>
+        <result property="orderDate" column="ORDER_DATE"/>
+        <result property="productSize" column="PRODUCT_SIZE"/>
+        <result property="orderAmount" column="ORDER_AMOUNT"/>
+        <result property="productName" column="PRODUCT_NAME"/>
+        <result property="productImageUrl" column="PRODUCT_IMAGE_URL"/>
+    </resultMap>
+
+
     <select id="selectMemberById" resultType="string">
         SELECT /* com.ohgiraffers.thymeleafspringboot.member.dao.MemberMapper#selectMemberById() */
                A.MEMBER_ID
@@ -104,5 +122,43 @@
         WHERE A.MEMBER_STATUS = 'Y'
           AND A.MEMBER_ID = #{ memberId }
     </update>
+
+    <!--member_no가져오기    -->
+    <select id="selectMemberNoById" resultType="int">
+        SELECT /* com.ohgiraffers.thymeleafspringboot.member.dao.MemberMapper#selectMemberById() */
+            A.MEMBER_NO
+        FROM TBL_MEMBER A
+        WHERE A.MEMBER_STATUS = 'Y'
+          AND A.MEMBER_ID = #{username}
+    </select>
+
+    <!--    주문내역조회 -->
+<!--    <select id="findOrderList" resultMap="orderHistoryResultMap">-->
+<!--        SELECT-->
+<!--            A.ORDER_CODE-->
+<!--             , A.ORDER_AMOUNT-->
+<!--             , A.ORDER_DATE-->
+<!--             , A.MEMBER_NO-->
+<!--             , A.PRODUCT_SIZE-->
+<!--             , A.PRODUCT_CODE-->
+<!--        FROM TBL_PRODUCT_ORDER A-->
+<!--        WHERE A.MEMBER_NO = #{memberNo}-->
+<!--    </select>-->
+
+    <select id="findOrderList" resultMap="orderHistoryResultMap">
+        SELECT
+            A.ORDER_CODE,
+            A.ORDER_DATE,
+            A.ORDER_AMOUNT,
+            A.PRODUCT_SIZE,
+            B.PRODUCT_NAME,
+            B.PRODUCT_IMAGE_URL
+        FROM TBL_PRODUCT_ORDER A
+        JOIN TBL_PRODUCT B
+        ON A.PRODUCT_CODE = B.PRODUCT_CODE
+        WHERE A.MEMBER_NO = #{memberNo}
+    </select>
+
+
 
 </mapper>
