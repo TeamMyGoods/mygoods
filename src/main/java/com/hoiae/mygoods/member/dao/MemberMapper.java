@@ -1,6 +1,6 @@
 package com.hoiae.mygoods.member.dao;
 
-import com.hoiae.mygoods.member.dto.FindOrderDTO;
+import com.hoiae.mygoods.member.dto.MyCharacterDTO;
 import com.hoiae.mygoods.member.dto.MemberDTO;
 import com.hoiae.mygoods.member.dto.OrderHistoryDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -32,4 +32,6 @@ public interface MemberMapper {
 
     List<Member> findAllMember();
 
+
+    List<MyCharacterDTO> findCharacterList(int memberNo);
 }

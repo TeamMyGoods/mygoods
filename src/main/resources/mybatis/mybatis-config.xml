@@ -16,6 +16,7 @@
 		<typeAlias alias="OrderDTO" type="com.hoiae.mygoods.payment.dto.OrderDTO"/>
 		<typeAlias alias="ProductDTO" type="com.hoiae.mygoods.product.dto.ProductDTO"/>
 		<typeAlias alias="CharacterDTO" type="com.hoiae.mygoods.product.dto.CharacterDTO"/>
+		<typeAlias alias="MyCharacterDTO" type="com.hoiae.mygoods.member.dto.MyCharacterDTO"/>
 
 	</typeAliases>
 

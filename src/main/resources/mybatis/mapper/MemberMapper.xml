@@ -21,6 +21,12 @@
         <result property="productImageUrl" column="PRODUCT_IMAGE_URL"/>
     </resultMap>
 
+    <resultMap id="CharacterListResultMap" type="MyCharacterDTO">
+<!--        <id property="characterCode" column="CHARACTER_CODE"/>-->
+<!--        <result property="memberNo" column="MEMBER_NO"/>-->
+        <result property="characterImageURL" column="CHARACTER_IMAGE_URL"/>
+    </resultMap>
+
 
     <select id="selectMemberById" resultType="string">
         SELECT /* com.ohgiraffers.thymeleafspringboot.member.dao.MemberMapper#selectMemberById() */
@@ -151,11 +157,20 @@
             A.ORDER_DATE,
             A.ORDER_AMOUNT,
             A.PRODUCT_SIZE,
+            A.ADDRESS,
             B.PRODUCT_NAME,
             B.PRODUCT_IMAGE_URL
         FROM TBL_PRODUCT_ORDER A
         JOIN TBL_PRODUCT B
         ON A.PRODUCT_CODE = B.PRODUCT_CODE
+        WHERE A.MEMBER_NO = #{memberNo}
+        ORDER BY A.ORDER_DATE
+    </select>
+
+    <select id="findCharacterList" resultMap="CharacterListResultMap">
+        SELECT
+            A.CHARACTER_IMAGE_URL
+        FROM TBL_CHARACTER A
         WHERE A.MEMBER_NO = #{memberNo}
     </select>
 
