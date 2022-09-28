@@ -30,7 +30,6 @@ public class MemberService {
         }
 
         public boolean selectMemberById(String userId) {
-
             String result = mapper.selectMemberById(userId);
 
             return result != null? true : false;

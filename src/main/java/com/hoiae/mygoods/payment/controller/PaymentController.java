@@ -2,26 +2,31 @@ package com.hoiae.mygoods.payment.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hoiae.mygoods.common.payment.PriceNotEqualException;
+import com.hoiae.mygoods.common.exception.payment.OrderException;
+import com.hoiae.mygoods.common.exception.payment.PaymentException;
+import com.hoiae.mygoods.common.exception.payment.PriceNotEqualException;
+import com.hoiae.mygoods.payment.dto.ModelDTO;
+import com.hoiae.mygoods.payment.dto.OrderDTO;
+import com.hoiae.mygoods.payment.dto.PaymentDTO;
+import com.hoiae.mygoods.payment.dto.WeekDTO;
 import com.hoiae.mygoods.payment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.net.http.HttpRequest;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.SQLOutput;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping("/payment")
@@ -56,8 +61,55 @@ public class PaymentController {
         return "content/payment/order";
     }
 
+    @PostMapping("/order")
+    public ResponseEntity<String> insertOrder(@RequestBody Map<String, String> orderInfo) throws OrderException, ParseException {
+
+        System.out.println("test");
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails)principal;
+        String username = ((UserDetails) principal).getUsername();
+
+        int memberNo = Integer.parseInt(paymentService.selectUserByUserName(username));
+
+        String orderCode = orderInfo.get("orderCode");
+        String orderSize = orderInfo.get("orderSize");
+        int amount = Integer.parseInt(orderInfo.get("amount"));
+        System.out.println("amount = " + amount);
+
+        Date date = new Date(); // 서버 시간으로 사용
+        int productCode = Integer.parseInt(orderInfo.get("productCode"));
+
+        OrderDTO order = new OrderDTO(orderCode, orderSize, amount, date,  memberNo, productCode);
+        System.out.println(order);
+
+        int result = paymentService.insertOrder(order);
+        System.out.println(result);
+
+        String message = "주문내역 입력 성공";
+
+        return ResponseEntity.ok(message);
+    }
+
+    @ResponseBody
+    @PostMapping("/orderCount")
+    public List<WeekDTO> countOrder(){
+
+        List<WeekDTO> result = paymentService.selectOrderCount();
+
+        return result;
+    }
+
+    @ResponseBody
+    @PostMapping("/model")
+    public List<ModelDTO> countModel(){
+
+        List<ModelDTO> result = paymentService.selectModelCount();
+
+        return result;
+    }
+
     @GetMapping("/success")
-    public String requestPayments(Model model, @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount) throws PriceNotEqualException, IOException, InterruptedException {
+    public String requestPayments(Model model, @RequestParam String paymentKey, @RequestParam String orderId, @RequestParam Long amount) throws PriceNotEqualException, IOException, InterruptedException, PaymentException {
 //        System.out.println("paymentKey : " + paymentKey);
 //        System.out.println("orderId : " + orderId);
 //        System.out.println("amount : " + amount);
@@ -98,8 +150,9 @@ public class PaymentController {
 
             String secret = successNode.get("secret").asText(); // 가상계좌의 경우 입금 callback 검증을 위해서 secret을 저장하기를 권장함
 
+            PaymentDTO payment = new PaymentDTO(paymentKey, "success", orderId, "N");
             // service 로직 필요.
-            int result = paymentService.insertPayment(paymentKey, orderId, amount,productName, productSize);
+            int result = paymentService.insertPayment(payment);
             
             return "content/payment/success";
         } else {

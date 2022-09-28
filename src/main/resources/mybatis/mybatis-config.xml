@@ -12,11 +12,17 @@
 		<typeAlias alias="MemberDTO" type="com.hoiae.mygoods.member.dto.MemberDTO" />
 		<typeAlias alias="FindOrderDTO" type="com.hoiae.mygoods.member.dto.FindOrderDTO" />
 		<typeAlias alias="OrderHistoryDTO" type="com.hoiae.mygoods.member.dto.OrderHistoryDTO" />
+		<typeAlias alias="PaymentDTO" type="com.hoiae.mygoods.payment.dto.PaymentDTO"/>
+		<typeAlias alias="OrderDTO" type="com.hoiae.mygoods.payment.dto.OrderDTO"/>
+		<typeAlias alias="ProductDTO" type="com.hoiae.mygoods.product.dto.ProductDTO"/>
+		<typeAlias alias="CharacterDTO" type="com.hoiae.mygoods.product.dto.CharacterDTO"/>
 
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="MemberMapper.xml" />
+		<mapper resource="ProductMapper.xml" />
+
 	</mappers>
 
 </configuration>
